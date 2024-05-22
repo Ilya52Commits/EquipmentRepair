@@ -7,7 +7,8 @@ internal class DbContext : Microsoft.EntityFrameworkCore.DbContext
 {
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
-    optionsBuilder.UseSqlServer(@"Server=(localdb)\user;Database=DbEquipmentRepair;Trusted_Connection=True;");
+    //_ = optionsBuilder.UseSqlServer(@"Server=DESKSTOP-13U175P\user;Database=DbEquipmentRepair;Trusted_Connection=True;");
+    optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=DbEquipmentRepair;Username=postgres;Password=52");
   }
 
   public DbSet<Client> Clients { get; set; }
