@@ -12,7 +12,9 @@ internal class DbContext : Microsoft.EntityFrameworkCore.DbContext
   }
 
   public DbSet<Client> Clients { get; set; }
-  public DbSet<Performer> Performers { get; set; }
+  public DbSet<Meneger> Menegers { get; set; }
+  public DbSet<Technician> Technicians { get; set; }
+  public DbSet<Operator> Operators { get; set; }
   public DbSet<Application> Applications { get; set; }
 }
 

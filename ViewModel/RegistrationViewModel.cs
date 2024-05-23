@@ -89,7 +89,6 @@ internal sealed partial class RegistrationViewModel : BaseViewModel
     var newClient = new Client
     {
       Login = _login,
-      Email = _email,
       Password = _password,
     };
 
