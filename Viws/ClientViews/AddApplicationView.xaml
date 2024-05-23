@@ -1,0 +1,102 @@
+﻿<Page x:Class="EquipmentRepair.Viws.ClientViews.AddApplicationView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel.ClientViewModels"
+      mc:Ignorable="d" 
+      d:DesignWidth="800"
+      Title="AddApplicationView">
+
+    <Page.DataContext>
+        <viewModels:AddApplicationViewModel/>
+    </Page.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border 
+            Background="White" 
+            MaxWidth="400" 
+            Margin="100"
+            BorderThickness="2"
+            CornerRadius="20" 
+            VerticalAlignment="Top">
+            
+            <Border.Effect>
+                <DropShadowEffect 
+                    ShadowDepth="1" 
+                    BlurRadius="20" />
+            </Border.Effect>
+            
+            <StackPanel Margin="30, 20,30,20">
+                <Button Command="{Binding NavigateToAuthorizationPageCommand}" HorizontalAlignment="Left" Width="100" Content="Назад"/>
+
+                <Label 
+                    Content="ДОБАВИТЬ ЗАЯВКУ" 
+                    HorizontalAlignment="Center" 
+                    FontSize="20" 
+                    FontWeight="Bold"/>
+
+                <TextBox 
+                    Text="{Binding NumberApplication}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Номер заявки" 
+                    FontSize="20"/>
+
+                <TextBox
+                    Text="{Binding AddDate}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Дата добавления" 
+                    FontSize="20"/>
+                
+                <TextBox 
+                    Text="{Binding TypeEquipment}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Тип устройства" 
+                    FontSize="20"/>
+
+                <TextBox 
+                    Text="{Binding ModelEquipment}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Модель устройства" 
+                    FontSize="20"/>
+
+                <TextBox 
+                    Text="{Binding DescriptionFault}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Описание проблемы" 
+                    FontSize="20"/>
+               
+                <TextBox 
+                    Text="{Binding NameClient}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="ФИО заказчика" 
+                    FontSize="20"/>
+
+                <TextBox 
+                    Text="{Binding Phone}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Номер телефона" 
+                    FontSize="20"/>
+
+                <TextBox 
+                    Text="{Binding Status}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    materialDesign:HintAssist.Hint="Статус заявки" 
+                    FontSize="20"/>
+                
+                <Button 
+                    Command="{Binding AddNewClientCommand}"
+                    Margin="0, 20, 0, 0"
+                    Height="50" 
+                    Padding="10, 7, 10, 7" 
+                    Content="Добавить заявку" 
+                    FontSize="20"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

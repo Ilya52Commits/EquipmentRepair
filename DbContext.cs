@@ -11,6 +11,7 @@ internal class DbContext : Microsoft.EntityFrameworkCore.DbContext
     optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=DbEquipmentRepair;Username=postgres;Password=52");
   }
 
+  public DbSet<Admin> Admins { get; set; }
   public DbSet<Client> Clients { get; set; }
   public DbSet<Meneger> Menegers { get; set; }
   public DbSet<Technician> Technicians { get; set; }

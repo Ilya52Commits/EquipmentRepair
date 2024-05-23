@@ -1,7 +1,10 @@
 ﻿using EquipmentRepair.Models;
+using EquipmentRepair.Viws;
+using GalaSoft.MvvmLight.Command;
+using System.Windows;
 
 namespace EquipmentRepair.ViewModel.ClientViewModels;
-internal class ClientViewModel
+internal sealed partial class ClientViewModel : BaseViewModel
 {
   public ClientViewModel(Client client)
   {

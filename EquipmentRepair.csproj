@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="import\**" />
+    <EmbeddedResource Remove="import\**" />
+    <None Remove="import\**" />
+    <Page Remove="import\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
@@ -18,6 +25,15 @@
     </PackageReference>
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel\MenegerViewModels\" />
+    <Folder Include="ViewModel\OperatorViewModels\" />
+    <Folder Include="ViewModel\TechnicianViewModels\" />
+    <Folder Include="Viws\MenegerViews\" />
+    <Folder Include="Viws\TechnicianViews\" />
+    <Folder Include="Viws\OperatorViews\" />
   </ItemGroup>
 
 </Project>
