@@ -16,6 +16,6 @@ internal class DbContext : Microsoft.EntityFrameworkCore.DbContext
   public DbSet<Meneger> Menegers { get; set; }
   public DbSet<Technician> Technicians { get; set; }
   public DbSet<Operator> Operators { get; set; }
-  public DbSet<Application> Applications { get; set; }
+  public DbSet<Request> Requests { get; set; }
 }
 

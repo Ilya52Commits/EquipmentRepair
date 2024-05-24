@@ -1,5 +1,5 @@
 ﻿using EquipmentRepair.Models;
-using EquipmentRepair.Viws;
+using EquipmentRepair.Viws.ClientViews;
 using GalaSoft.MvvmLight.Command;
 using System.Windows;
 
@@ -9,8 +9,10 @@ internal sealed partial class AddApplicationViewModel : BaseViewModel
 {
   private readonly DbContext _dbContext;
 
-  private string _numberApplication;
-  public string NumberApplication
+  private readonly Client _client;
+
+  private int _numberApplication;
+  public int NumberApplication
   {
     get => _numberApplication;
     set
@@ -53,7 +55,6 @@ internal sealed partial class AddApplicationViewModel : BaseViewModel
     }
   }
 
-
   private string _descriptionFault;
   public string DescriptionFault
   {
@@ -87,62 +88,68 @@ internal sealed partial class AddApplicationViewModel : BaseViewModel
     }
   }
 
-  private string _status;
-  public string Status
-  {
-    get => _status;
-    set
-    {
-      _status = value;
-      OnPropertyChanged();
-    }
-  }
+  public RelayCommand AddNewRequestCommand { get; }
+  public RelayCommand NavigateToClientPageCommand { get; }
 
-  public RelayCommand AddNewClientCommand { get; }
-  public RelayCommand NavigateToAuthorizationPageCommand { get; }
-
-  public AddApplicationViewModel()
+  public AddApplicationViewModel(Client client)
   {
     _dbContext = new();
 
+    _client = client;
 
-    _numberApplication = string.Empty;
+    _numberApplication = 0;
+    _addDate = string.Empty;
     _descriptionFault = string.Empty;
     _typeEquipment = string.Empty;
+    _modelEquipment = string.Empty;
+    _nameClient = string.Empty;
+    _phone = string.Empty;
 
-    AddNewClientCommand = new RelayCommand(AddNewClientCommandExecude);
-    NavigateToAuthorizationPageCommand = new RelayCommand(NavigateToAuthorizationPageCommandExecude);
+    AddNewRequestCommand = new RelayCommand(AddNewRequestCommandExecude);
+    NavigateToClientPageCommand = new RelayCommand(NavigateToClientPageCommandExecude);
   }
 
   /// <summary>
   /// Метод перехода на страницу авторизации
   /// </summary>
-  private void NavigateToAuthorizationPageCommandExecude()
+  private void NavigateToClientPageCommandExecude()
   {
     _dbContext.SaveChanges();
 
     var mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
 
-    mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
+    mainWindow?.MainFrame.NavigationService.Navigate(new ClientView(_client));
   }
 
   /// <summary>
   /// Добавление нового пользователя
   /// </summary>
-  private void AddNewClientCommandExecude()
+  private void AddNewRequestCommandExecude()
   {
-    var newClient = new Client
+    var isNameClientValidate = _dbContext.Clients.FirstOrDefault(c => c.Name == _client.Name && c.Name == NameClient);
+
+    if (isNameClientValidate == null)
     {
-      
-      Password = _descriptionFault,
+      MessageBox.Show("Некорректное имя!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      return;
+    }
+
+    var newRequest = new Request
+    {
+      NubmerApplication = _numberApplication,
+      AddDate = _addDate,
+      TypeEquipment = _typeEquipment,
+      ModelEquipment = _modelEquipment,
+      DescriptionFault = _descriptionFault,
+      NameClient = _nameClient,
+      Phone = _phone,
+      Status = "Новая заявка",
     };
 
-    _dbContext.Clients.Add(newClient);
+    _dbContext.Requests.Add(newRequest);
     _dbContext.SaveChanges();
 
-    MessageBox.Show("Успешно!", "Пользователь успешно добавлен!", MessageBoxButton.OK, MessageBoxImage.Information);
-
-    NavigateToAuthorizationPageCommandExecude();
+    MessageBox.Show("Успешно!", "Заявление успешно добавлено!", MessageBoxButton.OK, MessageBoxImage.Information);
   }
 }
 

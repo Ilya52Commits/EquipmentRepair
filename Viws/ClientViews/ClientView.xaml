@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel.ClientViewModels"
+      d:DataContext="{d:DesignInstance Type=viewModels:ClientViewModel}"
       mc:Ignorable="d" 
-      Height="500"
+      d:Width="1150" d:Height="800"
       Title="ClientView">
 
     <Grid>
@@ -14,30 +15,56 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="30, 10, 30, 0"  VerticalAlignment="Top">
-            <Button Content="Назад" Width="100" HorizontalAlignment="Left"/>
+            <Button
+                Command="{Binding NavigateToAuthorizationCommand}"  
+                Content="Назад" 
+                Width="100"
+                HorizontalAlignment="Left"/>
         </StackPanel>
         
-        <StackPanel Margin="140, 10, 30, 0"  VerticalAlignment="Top">
-            <Button Content="Создать заявку" Width="150" HorizontalAlignment="Left"/>
+        <StackPanel 
+            Margin="140, 10, 30, 0"  
+            VerticalAlignment="Top">
+            <Button 
+                Command="{Binding NavigateToAddApplicationCommand}" 
+                Content="Создать заявку" 
+                Width="150" 
+                HorizontalAlignment="Left"/>
         </StackPanel>
         
         <DataGrid
+            ItemsSource="{Binding Requests}"
             AutoGenerateColumns="False" 
             Grid.Column="1" Grid.Row="0" 
             CanUserAddRows="False"
             Margin="30, 10, 30, 0" 
-            VerticalAlignment="Bottom"
-            Height="400" >
+            VerticalAlignment="Center">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер заявки"/>
-                <DataGridTextColumn Header="Дата добавления"/>
-                <DataGridTextColumn Header="Тип устройства"/>
-                <DataGridTextColumn Header="Модель устройства"/>
-                <DataGridTextColumn Header="Описание проблемы"/>
-                <DataGridTextColumn Header="ФИО заказчика"/>
-                <DataGridTextColumn Header="Номер телефона"/>
-                <DataGridTextColumn Header="Статус заявки"/>
+                <DataGridTextColumn 
+                    Binding="{Binding NubmerApplication}" 
+                    Header="Номер заявки"/>
+                <DataGridTextColumn 
+                    Binding="{Binding AddDate}" 
+                    Header="Дата добавления"/>
+                <DataGridTextColumn 
+                    Binding="{Binding TypeEquipment}"
+                    Header="Тип устройства"/>
+                <DataGridTextColumn 
+                    Binding="{Binding ModelEquipment}"
+                    Header="Модель устройства"/>
+                <DataGridTextColumn 
+                    Binding="{Binding DescriptionFault}"
+                    Header="Описание проблемы"/>
+                <DataGridTextColumn 
+                    Binding="{Binding NameClient}" 
+                    Header="ФИО заказчика"/>
+                <DataGridTextColumn 
+                    Binding="{Binding Phone}"
+                    Header="Номер телефона"/>
+                <DataGridTextColumn 
+                    Binding="{Binding Status}" 
+                    Header="Статус заявки"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

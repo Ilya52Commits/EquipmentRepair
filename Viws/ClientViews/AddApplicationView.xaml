@@ -4,16 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-      xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel.ClientViewModels"
+      xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel.ClientViewModels" d:DataContext="{d:DesignInstance Type=viewModels:AddApplicationViewModel}"
       mc:Ignorable="d" 
-      d:DesignWidth="800"
       Title="AddApplicationView">
 
-    <Page.DataContext>
-        <viewModels:AddApplicationViewModel/>
-    </Page.DataContext>
-    
-    <Grid>
+    <Grid Width="800">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -33,7 +28,7 @@
             </Border.Effect>
             
             <StackPanel Margin="30, 20,30,20">
-                <Button Command="{Binding NavigateToAuthorizationPageCommand}" HorizontalAlignment="Left" Width="100" Content="Назад"/>
+                <Button Command="{Binding NavigateToClientPageCommand}" HorizontalAlignment="Left" Width="100" Content="Назад"/>
 
                 <Label 
                     Content="ДОБАВИТЬ ЗАЯВКУ" 
@@ -46,13 +41,13 @@
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                     materialDesign:HintAssist.Hint="Номер заявки" 
                     FontSize="20"/>
-
-                <TextBox
-                    Text="{Binding AddDate}" 
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+     
+                <DatePicker
+                    DataContext="{Binding AddDate}"
+                    Margin="0,10,0,0"
                     materialDesign:HintAssist.Hint="Дата добавления" 
                     FontSize="20"/>
-                
+
                 <TextBox 
                     Text="{Binding TypeEquipment}" 
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
@@ -83,17 +78,11 @@
                     materialDesign:HintAssist.Hint="Номер телефона" 
                     FontSize="20"/>
 
-                <TextBox 
-                    Text="{Binding Status}" 
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                    materialDesign:HintAssist.Hint="Статус заявки" 
-                    FontSize="20"/>
-                
                 <Button 
-                    Command="{Binding AddNewClientCommand}"
+                    Command="{Binding AddNewRequestCommand}"
                     Margin="0, 20, 0, 0"
-                    Height="50" 
                     Padding="10, 7, 10, 7" 
+                    Height="50"   
                     Content="Добавить заявку" 
                     FontSize="20"/>
             </StackPanel>

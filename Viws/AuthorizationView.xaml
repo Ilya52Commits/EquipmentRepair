@@ -6,13 +6,14 @@
       mc:Ignorable="d" 
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel"
+      d:Height="500" d:Width="800"
       Title="AuthorizationView">
 
     <Page.DataContext>
         <viewModels:AuthorizationViewModel/>
     </Page.DataContext>
 
-    <Grid Width="800">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>

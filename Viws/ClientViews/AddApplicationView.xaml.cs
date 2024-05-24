@@ -1,4 +1,5 @@
-﻿using EquipmentRepair.ViewModel.ClientViewModels;
+﻿using EquipmentRepair.Models;
+using EquipmentRepair.ViewModel.ClientViewModels;
 using System.Windows.Controls;
 
 namespace EquipmentRepair.Viws.ClientViews;
@@ -7,8 +8,10 @@ namespace EquipmentRepair.Viws.ClientViews;
 /// </summary>
 public partial class AddApplicationView : Page
 {
-  public AddApplicationView()
+  public AddApplicationView(Client client)
   {
     InitializeComponent();
+
+    DataContext = new AddApplicationViewModel(client);
   }
 }
