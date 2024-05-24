@@ -1,5 +1,6 @@
 ﻿using EquipmentRepair.Viws;
 using EquipmentRepair.Viws.ClientViews;
+using EquipmentRepair.Viws.TechnicianViews;
 using GalaSoft.MvvmLight.Command;
 using System.Windows;
 
@@ -62,6 +63,7 @@ internal sealed partial class AuthorizationViewModel : BaseViewModel
   private void AuthorizationCommandExecute()
   {
     var findedClient = _dbContext.Clients.FirstOrDefault(client => client.Login == _login && client.Password == _password);
+    var findedTechnician = _dbContext.Technicians.FirstOrDefault(client => client.Login == _login && client.Password == _password);
 
     if (findedClient != null)
     {
@@ -70,6 +72,14 @@ internal sealed partial class AuthorizationViewModel : BaseViewModel
       var mainWindow = Application.Current.MainWindow as MainWindow;
 
       mainWindow?.MainFrame.NavigationService.Navigate(new ClientView(findedClient));
+    }
+    else if (findedTechnician != null)
+    {
+      MessageBox.Show("Добрый день, уважаемый техник!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+
+      var mainWindow = Application.Current.MainWindow as MainWindow;
+
+      mainWindow?.MainFrame.NavigationService.Navigate(new TechnicianViews(findedTechnician));
     }
     else
     {

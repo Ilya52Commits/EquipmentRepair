@@ -30,9 +30,7 @@
   <ItemGroup>
     <Folder Include="ViewModel\MenegerViewModels\" />
     <Folder Include="ViewModel\OperatorViewModels\" />
-    <Folder Include="ViewModel\TechnicianViewModels\" />
     <Folder Include="Viws\MenegerViews\" />
-    <Folder Include="Viws\TechnicianViews\" />
     <Folder Include="Viws\OperatorViews\" />
   </ItemGroup>
 

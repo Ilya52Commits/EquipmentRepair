@@ -190,6 +190,10 @@ public partial class App : Application
       }
     }
   }
+
+  /// <summary>
+  /// Метод добавления первых заявок
+  /// </summary>
   private void AddTheFirstsRequests()
   {
     bool hasContentRequests = _dbContext.Requests.Any();
