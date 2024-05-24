@@ -130,22 +130,25 @@ namespace EquipmentRepair.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AddDate")
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CompletionDate")
                         .HasColumnType("text");
 
                     b.Property<string>("DescriptionFault")
                         .HasColumnType("text");
 
+                    b.Property<int?>("MasterId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ModelEquipment")
                         .HasColumnType("text");
 
-                    b.Property<string>("NameClient")
+                    b.Property<string>("RepairParts")
                         .HasColumnType("text");
 
-                    b.Property<int?>("NubmerApplication")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Phone")
+                    b.Property<string>("StartDate")
                         .HasColumnType("text");
 
                     b.Property<string>("Status")

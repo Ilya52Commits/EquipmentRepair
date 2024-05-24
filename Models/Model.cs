@@ -48,12 +48,13 @@ public class Operator
 public class Request
 {
   public int Id { get; set; }
-  public int? NubmerApplication { get; set; }
-  public string? AddDate { get; set; }
+  public string? StartDate { get; set; }
   public string? TypeEquipment { get; set; }
   public string? ModelEquipment { get; set; }
   public string? DescriptionFault { get; set; }
-  public string? NameClient { get; set; }
-  public string? Phone { get; set; }
   public string? Status { get; set; }
+  public string? CompletionDate { get; set; }
+  public string? RepairParts { get; set; }
+  public int? MasterId { get; set; }
+  public int? ClientId { get; set; }
 }

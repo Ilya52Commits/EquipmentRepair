@@ -6,7 +6,7 @@
       xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel.ClientViewModels"
       d:DataContext="{d:DesignInstance Type=viewModels:ClientViewModel}"
       mc:Ignorable="d" 
-      d:Width="1150" d:Height="800"
+      d:Height="800"
       Title="ClientView">
 
     <Grid>
@@ -42,10 +42,12 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn 
-                    Binding="{Binding NubmerApplication}" 
+                    Binding="{Binding Id}"
+                    IsReadOnly="True"
                     Header="Номер заявки"/>
                 <DataGridTextColumn 
-                    Binding="{Binding AddDate}" 
+                    Binding="{Binding StartDate}"
+                    IsReadOnly="True"
                     Header="Дата добавления"/>
                 <DataGridTextColumn 
                     Binding="{Binding TypeEquipment}"
@@ -57,14 +59,13 @@
                     Binding="{Binding DescriptionFault}"
                     Header="Описание проблемы"/>
                 <DataGridTextColumn 
-                    Binding="{Binding NameClient}" 
-                    Header="ФИО заказчика"/>
-                <DataGridTextColumn 
-                    Binding="{Binding Phone}"
-                    Header="Номер телефона"/>
-                <DataGridTextColumn 
                     Binding="{Binding Status}" 
+                    IsReadOnly="True"
                     Header="Статус заявки"/>
+                <DataGridTextColumn 
+                    Binding="{Binding CompletionDate}"
+                    IsReadOnly="True"
+                    Header="Дата завершения"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -31,7 +31,7 @@ internal sealed partial class ClientViewModel : BaseViewModel
 
     _client = client;
 
-    _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.NameClient == client.Name).ToList());
+    _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.ClientId == client.Id).ToList());
 
     NavigateToAddApplicationCommand = new RelayCommand(NavigateToAddApplicationCommandExecute);
     NavigateToAuthorizationCommand = new RelayCommand(NavigateToAuthorizationCommandExecute);
@@ -42,6 +42,8 @@ internal sealed partial class ClientViewModel : BaseViewModel
   /// </summary>
   private void NavigateToAuthorizationCommandExecute()
   {
+    _dbContext.SaveChanges();
+
     var mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
 
     mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
@@ -52,6 +54,8 @@ internal sealed partial class ClientViewModel : BaseViewModel
   /// </summary>
   private void NavigateToAddApplicationCommandExecute()
   {
+    _dbContext.SaveChanges();
+
     var mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
 
     mainWindow?.MainFrame.NavigationService.Navigate(new AddApplicationView(_client));

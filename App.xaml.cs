@@ -9,16 +9,16 @@ namespace EquipmentRepair;
 /// </summary>
 public partial class App : Application
 {
-  private readonly DbContext _dbContext = new(); 
+  private readonly DbContext _dbContext = new();
 
   /// <summary>
   /// Метод добавления главного админа
   /// </summary>
   private void AddTheMainAdmin()
   {
-    var isThereMainAdmin = _dbContext.Admins.FirstOrDefault(admin => admin.Name == "Admin" 
-                                                                    && admin.Login == "Admin" 
-                                                                    && admin.Password == "Admin" 
+    var isThereMainAdmin = _dbContext.Admins.FirstOrDefault(admin => admin.Name == "Admin"
+                                                                    && admin.Login == "Admin"
+                                                                    && admin.Password == "Admin"
                                                                     && admin.Phone == "Admin");
 
     if (isThereMainAdmin == null)
@@ -69,10 +69,11 @@ public partial class App : Application
         {
           var newClient = new Client
           {
-            Name = splitedLine[1],
-            Phone = splitedLine[2],
-            Login = splitedLine[3],
-            Password = splitedLine[4],
+            Id = int.Parse(splitedLine[0].Trim()),
+            Name = splitedLine[1].Trim(),
+            Phone = splitedLine[2].Trim(),
+            Login = splitedLine[3].Trim(),
+            Password = splitedLine[4].Trim(),
           };
 
           _dbContext.Clients.Add(newClient);
@@ -81,7 +82,7 @@ public partial class App : Application
       }
     }
 
-    else if (!hasContentManagers)
+    if (!hasContentManagers)
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
@@ -104,10 +105,11 @@ public partial class App : Application
         {
           var newMeneger = new Meneger
           {
-            Name = splitedLine[1],
-            Phone = splitedLine[2],
-            Login = splitedLine[3],
-            Password = splitedLine[4],
+            Id = int.Parse(splitedLine[0].Trim()),
+            Name = splitedLine[1].Trim(),
+            Phone = splitedLine[2].Trim(),
+            Login = splitedLine[3].Trim(),
+            Password = splitedLine[4].Trim(),
           };
 
           _dbContext.Menegers.Add(newMeneger);
@@ -116,7 +118,7 @@ public partial class App : Application
       }
     }
 
-    else if (!hasContentTechnician)
+    if (!hasContentTechnician)
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
@@ -139,10 +141,11 @@ public partial class App : Application
         {
           var newTechnician = new Technician
           {
-            Name = splitedLine[1],
-            Phone = splitedLine[2],
-            Login = splitedLine[3],
-            Password = splitedLine[4],
+            Id = int.Parse(splitedLine[0].Trim()),
+            Name = splitedLine[1].Trim(),
+            Phone = splitedLine[2].Trim(),
+            Login = splitedLine[3].Trim(),
+            Password = splitedLine[4].Trim(),
           };
 
           _dbContext.Technicians.Add(newTechnician);
@@ -151,7 +154,7 @@ public partial class App : Application
       }
     }
 
-    else if (!hasContentOperator)
+    if (!hasContentOperator)
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
@@ -174,10 +177,11 @@ public partial class App : Application
         {
           var newOperator = new Operator
           {
-            Name = splitedLine[1],
-            Phone = splitedLine[2],
-            Login = splitedLine[3],
-            Password = splitedLine[4],
+            Id = int.Parse(splitedLine[0].Trim()),
+            Name = splitedLine[1].Trim(),
+            Phone = splitedLine[2].Trim(),
+            Login = splitedLine[3].Trim(),
+            Password = splitedLine[4].Trim(),
           };
 
           _dbContext.Operators.Add(newOperator);
@@ -186,6 +190,75 @@ public partial class App : Application
       }
     }
   }
+  private void AddTheFirstsRequests()
+  {
+    bool hasContentRequests = _dbContext.Requests.Any();
+
+    if (!hasContentRequests)
+    {
+      var fileForFirstUsers = File.ReadAllText(@"import/inputDataRequests.txt");
+
+      var splitedFile = fileForFirstUsers.Split('\n');
+
+      foreach (var line in splitedFile)
+      {
+        var splitedLine = line.Split(';');
+
+        try
+        {
+          int.Parse(splitedLine[0]);
+        }
+        catch
+        {
+          continue;
+        }
+
+        try
+        {
+          int.Parse(splitedLine[8]);
+        }
+        catch
+        {
+          var newReq = new Request
+          {
+            Id = int.Parse(splitedLine[0]),
+            StartDate = splitedLine[1],
+            TypeEquipment = splitedLine[2],
+            ModelEquipment = splitedLine[3],
+            DescriptionFault = splitedLine[4],
+            Status = splitedLine[5],
+            CompletionDate = splitedLine[6],
+            RepairParts = null,
+            MasterId = null,
+            ClientId = int.Parse(splitedLine[9]),
+          };
+
+          _dbContext.Requests.Add(newReq);
+          _dbContext.SaveChanges();
+
+          continue;
+        }
+
+        var newRequest = new Request
+        {
+          Id = int.Parse(splitedLine[0]),
+          StartDate = splitedLine[1],
+          TypeEquipment = splitedLine[2],
+          ModelEquipment = splitedLine[3],
+          DescriptionFault = splitedLine[4],
+          Status = splitedLine[5],
+          CompletionDate = splitedLine[6],
+          RepairParts = null,
+          MasterId = int.Parse(splitedLine[8]),
+          ClientId = int.Parse(splitedLine[9]),
+        };
+
+        _dbContext.Requests.Add(newRequest);
+        _dbContext.SaveChanges();
+      }
+    }
+  }
+
 
   /// <summary>
   /// Метод для выполнения комманд во время запуска программы
@@ -195,6 +268,7 @@ public partial class App : Application
   {
     AddTheMainAdmin();
     AddTheFirstsUsers();
+    AddTheFirstsRequests();
 
     base.OnStartup(e);
   }
