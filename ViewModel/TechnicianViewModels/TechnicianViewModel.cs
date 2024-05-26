@@ -3,6 +3,7 @@ using EquipmentRepair.Viws;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using System.Windows;
+using EquipmentRepair.Viws.TechnicianViews;
 
 namespace EquipmentRepair.ViewModel.TechnicianViewModels;
 internal sealed partial class TechnicianViewModel : BaseViewModel
@@ -23,6 +24,7 @@ internal sealed partial class TechnicianViewModel : BaseViewModel
   }
 
   public RelayCommand NavigateToAuthorizationCommand { get; set; }
+  public RelayCommand NavigateToFreeRequestsPageCommand { get; set; }
 
   public TechnicianViewModel(Technician technician)
   {
@@ -33,8 +35,9 @@ internal sealed partial class TechnicianViewModel : BaseViewModel
     _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.MasterId == _technician.Id));
 
     NavigateToAuthorizationCommand = new RelayCommand(NavigateToAuthorizationCommandExecute);
+    NavigateToFreeRequestsPageCommand = new RelayCommand(NavigateToFreeRequestsPageCommandExecute);
   }
-
+  
   /// <summary>
   /// Метод перехода на страницу авторизации
   /// </summary>
@@ -43,6 +46,13 @@ internal sealed partial class TechnicianViewModel : BaseViewModel
     var mainWindow = Application.Current.MainWindow as MainWindow;
 
     mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
+  }
+  
+  private void NavigateToFreeRequestsPageCommandExecute() 
+  {
+    var mainWindow = Application.Current.MainWindow as MainWindow;
+
+    mainWindow?.MainFrame.NavigationService.Navigate(new FreeRequestsView(_technician));
   }
 }
 

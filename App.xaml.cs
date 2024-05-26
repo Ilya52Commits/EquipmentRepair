@@ -41,10 +41,10 @@ public partial class App : Application
   /// </summary>
   private void AddTheFirstsUsers()
   {
-    bool hasContentClients = _dbContext.Clients.Any();
-    bool hasContentManagers = _dbContext.Menegers.Any();
-    bool hasContentTechnician = _dbContext.Technicians.Any();
-    bool hasContentOperator = _dbContext.Operators.Any();
+    var hasContentClients = _dbContext.Clients.Any();
+    var hasContentManagers = _dbContext.Menegers.Any();
+    var hasContentTechnician = _dbContext.Technicians.Any();
+    var hasContentOperator = _dbContext.Operators.Any();
 
     if (!hasContentClients)
     {
