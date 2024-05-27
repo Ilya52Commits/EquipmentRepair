@@ -31,9 +31,20 @@
                 Width="150" 
                 HorizontalAlignment="Left"/>
         </StackPanel>
-        
+
+        <TextBox 
+            Height="30" 
+            Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
+            Margin="30, 0, 0, 120" 
+            Width="300" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Center"
+            Padding="0, 0, 5, 0"
+            FontSize="15"/>
+
         <DataGrid
             ItemsSource="{Binding Requests}"
+            SelectedItem="{Binding Selected}"
             AutoGenerateColumns="False" 
             Grid.Column="1" Grid.Row="0" 
             CanUserAddRows="False"

@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
+      d:DesignHeight="450"
+      x:Name="FreeReq"
       Title="FreeRequestsView">
     
     <Grid>
@@ -52,16 +54,21 @@
                 <DataGridTextColumn 
                     Binding="{Binding DescriptionFault}"
                     Header="Описание проблемы"/>
+                <DataGridTextColumn
+                    Binding="{Binding Status}"
+                    Header="Статус"/>
                 <DataGridTemplateColumn  
                     Width="auto" 
                     MinWidth="20" 
-                    Header="Статус заявки">
+                    Header="Заняться">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                Command="{Binding NavigateToTechnicianPageCommand}"  
+                                Command="{Binding DataContext.ApplyRequestCommand,
+                                ElementName=FreeReq}"  
                                 Content="Заняться" 
                                 Width="100"
+                                CommandParameter="{Binding}"
                                 HorizontalAlignment="Left"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -24,7 +24,7 @@ internal sealed partial class FreeRequesrsViewModel : BaseViewModel
   }
   
   public RelayCommand NavigateToTechnicianPageCommand { get; set; }
-  public RelayCommand ApplyRequestCommand { get; set; }
+  public RelayCommand<Request> ApplyRequestCommand { get; set; }
   
   public FreeRequesrsViewModel(Technician technician)
   {
@@ -32,10 +32,10 @@ internal sealed partial class FreeRequesrsViewModel : BaseViewModel
 
     _technician = technician;
     
-    _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.MasterId == null));
+    _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.MasterId == null && r.Status == "Новая заявка"));
 
     NavigateToTechnicianPageCommand = new RelayCommand(NavigateToTechnicianPageCommandExecute);
-    ApplyRequestCommand = new RelayCommand(ApplyRequestCommandExecute);
+    ApplyRequestCommand = new RelayCommand<Request>(ApplyRequestCommandExecute);
   }
   
   /// <summary>
@@ -43,16 +43,26 @@ internal sealed partial class FreeRequesrsViewModel : BaseViewModel
   /// </summary>
   private void NavigateToTechnicianPageCommandExecute()
   {
+    _dbContext.SaveChanges();
+
     var mainWindow = Application.Current.MainWindow as MainWindow;
 
     mainWindow?.MainFrame.NavigationService.Navigate(new TechnicianViews(_technician));
   }
-  
+
   /// <summary>
   /// Метод добавления заявки для выполнения
   /// </summary>
-  private void ApplyRequestCommandExecute()
+  private void ApplyRequestCommandExecute(Request request)
   {
-    
+
+    var addedRequest = _dbContext.Requests.FirstOrDefault(r => r.Id == request.Id);
+    if (addedRequest == null) return; 
+
+    addedRequest.MasterId = _technician.Id;
+    _dbContext.Update(addedRequest);
+    _dbContext.SaveChanges();
+
+    _requests.Remove(addedRequest);
   }
 }

@@ -3,8 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EquipmentRepair.Viws.TechnicianViews"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
+      x:Name="TechReq"
       d:DesignHeight="450"
       Title="TechnicianViews">
 
@@ -61,7 +61,7 @@
                 <DataGridTextColumn 
                     Binding="{Binding DescriptionFault}"
                     Header="Описание проблемы"/>
-                <DataGridTemplateColumn  
+                <!--<DataGridTemplateColumn  
                     Width="auto" 
                     MinWidth="20" 
                     Header="Статус заявки">
@@ -75,6 +75,26 @@
                                 <ComboBoxItem Content="В процессе ремонта"></ComboBoxItem>
                                 <ComboBoxItem Content="Готова к выдаче"></ComboBoxItem>
                             </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTextColumn 
+                     Binding="{Binding Status}"
+                     Header="Статус"/>
+                <DataGridTemplateColumn  
+                    Width="auto" 
+                    MinWidth="20" 
+                    Header="Завершить работу">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding DataContext.FinishrequestCommand,
+                                ElementName=TechReq}"  
+                                Content="Заняться" 
+                                Width="100"
+                                CommandParameter="{Binding}"
+                                HorizontalAlignment="Left"
+                                />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
