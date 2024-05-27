@@ -232,8 +232,6 @@ public partial class App : Application
             DescriptionFault = splitedLine[4],
             Status = splitedLine[5],
             CompletionDate = splitedLine[6],
-            RepairParts = null,
-            MastersId = new(int.Parse(splitedLine[8])),
             ClientId = int.Parse(splitedLine[9]),
           };
 
@@ -253,7 +251,7 @@ public partial class App : Application
           Status = splitedLine[5],
           CompletionDate = splitedLine[6],
           RepairParts = null,
-          MastersId = new (int.Parse(splitedLine[8])),
+          MasterId = int.Parse(splitedLine[8]),
           ClientId = int.Parse(splitedLine[9]),
         };
 

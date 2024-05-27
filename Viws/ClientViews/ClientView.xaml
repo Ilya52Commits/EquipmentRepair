@@ -33,11 +33,7 @@
                 HorizontalAlignment="Left"/>
         </StackPanel>
 
-        <Label
-            Margin="30, 100, 30, 0"
-            Content="Уведомления"
-            FontSize="15"/>
-        <ListBox />
+        
     
         <TextBox 
             Height="30" 

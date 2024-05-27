@@ -1,4 +1,7 @@
-﻿namespace EquipmentRepair.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EquipmentRepair.Models;
 
 public class Admin
 {
