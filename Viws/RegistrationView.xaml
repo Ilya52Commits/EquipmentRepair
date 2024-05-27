@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel"
+      xmlns:components="clr-namespace:PasswordBoxMVVM.Components;assembly=PasswordBoxMVVM"
       mc:Ignorable="d" 
       d:Height="500" d:Width="800"
       Title="RegistrationView">
@@ -51,9 +52,9 @@
                     materialDesign:HintAssist.Hint="Почта" 
                     FontSize="20"/>
 
-                <TextBox 
-                    Text="{Binding Password}" 
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                <components:BindablePasswordBox
+                    Password="{Binding Password}" 
+         
                     materialDesign:HintAssist.Hint="Пароль" 
                     FontSize="20"/>
 
