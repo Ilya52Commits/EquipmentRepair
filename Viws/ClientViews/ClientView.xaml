@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:viewModels="clr-namespace:EquipmentRepair.ViewModel.ClientViewModels"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       d:DataContext="{d:DesignInstance Type=viewModels:ClientViewModel}"
       mc:Ignorable="d" 
       d:Height="800"
@@ -21,7 +22,7 @@
                 Width="100"
                 HorizontalAlignment="Left"/>
         </StackPanel>
-        
+
         <StackPanel 
             Margin="140, 10, 30, 0"  
             VerticalAlignment="Top">
@@ -32,19 +33,25 @@
                 HorizontalAlignment="Left"/>
         </StackPanel>
 
+        <Label
+            Margin="30, 100, 30, 0"
+            Content="Уведомления"
+            FontSize="15"/>
+        <ListBox />
+    
         <TextBox 
             Height="30" 
             Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
-            Margin="30, 0, 0, 120" 
+            materialDesign:HintAssist.Hint="Поиск" 
+            Margin="30, 0, 0, 150" 
             Width="300" 
             HorizontalAlignment="Left" 
             VerticalAlignment="Center"
-            Padding="0, 0, 5, 0"
+            Padding="0, 0, 10, 0"
             FontSize="15"/>
 
         <DataGrid
             ItemsSource="{Binding Requests}"
-            SelectedItem="{Binding Selected}"
             AutoGenerateColumns="False" 
             Grid.Column="1" Grid.Row="0" 
             CanUserAddRows="False"

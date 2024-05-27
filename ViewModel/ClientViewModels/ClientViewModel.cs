@@ -2,10 +2,7 @@
 using EquipmentRepair.Viws;
 using EquipmentRepair.Viws.ClientViews;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace EquipmentRepair.ViewModel.ClientViewModels;
 internal sealed partial class ClientViewModel : BaseViewModel
@@ -33,19 +30,34 @@ internal sealed partial class ClientViewModel : BaseViewModel
     {
       _pattern = value;
       OnPropertyChanged();
+      PerformSearch();
     }
   }
+
 
   private ObservableCollection<Request> _selected;
   public ObservableCollection<Request> Selected
   {
     get =>_selected;
-    private set
+    set
     {
       _selected = value; 
       OnPropertyChanged();
     }
   }
+
+
+  private ObservableCollection<String> _notification;
+  public ObservableCollection<String> Notifications
+  {
+    get => _notification; 
+    set
+    {
+      _notification = value;
+      OnPropertyChanged();
+    }
+  }
+
 
   public RelayCommand NavigateToAddApplicationCommand { get; set; }
   public RelayCommand NavigateToAuthorizationCommand { get; set; }
@@ -57,10 +69,12 @@ internal sealed partial class ClientViewModel : BaseViewModel
     _client = client;
 
     _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.ClientId == client.Id).ToList());
-  
 
     _selected = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.ClientId == client.Id).ToList());
-    
+
+    _pattern = string.Empty;
+
+    _notification = new();
 
     NavigateToAddApplicationCommand = new RelayCommand(NavigateToAddApplicationCommandExecute);
     NavigateToAuthorizationCommand = new RelayCommand(NavigateToAuthorizationCommandExecute);
@@ -90,5 +104,25 @@ internal sealed partial class ClientViewModel : BaseViewModel
     mainWindow?.MainFrame.NavigationService.Navigate(new AddApplicationView(_client));
   }
 
+  // Как это работет, ебать??
 
+  /// <summary>
+  /// Метод для поиска
+  /// </summary>
+  private void PerformSearch()
+  {
+    // Очистите коллекцию результатов поиска перед выполнением нового поиска
+    Requests.Clear();
+
+    // Выполните поиск в коллекции MyCollection на основе поискового запроса
+    foreach (var item in Selected)
+    {
+      if (item.Id.ToString().StartsWith(Pattern, StringComparison.OrdinalIgnoreCase))
+      {
+        Requests.Add(item);
+      }
+    }
+  }
+
+  //***************************
 }

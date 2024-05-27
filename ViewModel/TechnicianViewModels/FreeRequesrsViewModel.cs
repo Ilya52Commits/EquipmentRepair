@@ -32,7 +32,7 @@ internal sealed partial class FreeRequesrsViewModel : BaseViewModel
 
     _technician = technician;
     
-    _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.MasterId == null && r.Status == "Новая заявка"));
+    _requests = new ObservableCollection<Request>(_dbContext.Requests.Where(r => r.MastersId == null && r.Status == "Новая заявка"));
 
     NavigateToTechnicianPageCommand = new RelayCommand(NavigateToTechnicianPageCommandExecute);
     ApplyRequestCommand = new RelayCommand<Request>(ApplyRequestCommandExecute);
@@ -59,7 +59,7 @@ internal sealed partial class FreeRequesrsViewModel : BaseViewModel
     var addedRequest = _dbContext.Requests.FirstOrDefault(r => r.Id == request.Id);
     if (addedRequest == null) return; 
 
-    addedRequest.MasterId = _technician.Id;
+    addedRequest.MastersId.Add(_technician.Id);
     _dbContext.Update(addedRequest);
     _dbContext.SaveChanges();
 

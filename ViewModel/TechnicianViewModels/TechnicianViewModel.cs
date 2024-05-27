@@ -85,6 +85,7 @@ internal sealed partial class TechnicianViewModel : BaseViewModel
       finishedRequest.CompletionDate = DateTime.Today.ToString("yyyy-MM-dd");
 
       finishedRequest.MasterId = null;
+   
 
       MessageBox.Show("Работа успешно выполнена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 

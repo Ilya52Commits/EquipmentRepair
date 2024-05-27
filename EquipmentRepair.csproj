@@ -31,7 +31,6 @@
     <Folder Include="ViewModel\MenegerViewModels\" />
     <Folder Include="ViewModel\OperatorViewModels\" />
     <Folder Include="Viws\MenegerViews\" />
-    <Folder Include="Viws\OperatorViews\" />
   </ItemGroup>
 
 </Project>
