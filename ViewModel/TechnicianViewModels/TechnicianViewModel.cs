@@ -6,30 +6,21 @@ using System.Windows;
 using EquipmentRepair.Viws.TechnicianViews;
 
 namespace EquipmentRepair.ViewModel.TechnicianViewModels;
-internal sealed partial class TechnicianViewModel : BaseViewModel
+internal sealed class TechnicianViewModel : BaseViewModel
 {
   private readonly DbContext _dbContext;
 
   private readonly Technician _technician;
 
-  private ObservableCollection<Request> _requests;
-  public ObservableCollection<Request> Requests
-  {
-    get => _requests;
-    private set
-    {
-      _requests = value;
-      OnPropertyChanged();
-    }
-  }
+  private readonly ObservableCollection<Request> _requests;
 
   public RelayCommand NavigateToAuthorizationCommand { get; set; }
   public RelayCommand NavigateToFreeRequestsPageCommand { get; set; }
-  public RelayCommand<Request> FinishrequestCommand { get; set; }
+  public RelayCommand<Request> FinishRequestCommand { get; set; }
 
   public TechnicianViewModel(Technician technician)
   {
-    _dbContext = new();
+    _dbContext = new DbContext();
 
     _technician = technician;
 
@@ -37,7 +28,7 @@ internal sealed partial class TechnicianViewModel : BaseViewModel
 
     NavigateToAuthorizationCommand = new RelayCommand(NavigateToAuthorizationCommandExecute);
     NavigateToFreeRequestsPageCommand = new RelayCommand(NavigateToFreeRequestsPageCommandExecute);
-    FinishrequestCommand = new RelayCommand<Request>(FinishrequestCommandExecute);
+    FinishRequestCommand = new RelayCommand<Request>(FinishRequestCommandExecute);
   }
 
   /// <summary>
@@ -67,33 +58,31 @@ internal sealed partial class TechnicianViewModel : BaseViewModel
   /// <summary>
   /// Метод завершения работы над заявкой
   /// </summary>
-  private void FinishrequestCommandExecute(Request request)
+  private void FinishRequestCommandExecute(Request request)
   {
     _dbContext.SaveChanges();
 
     var finishedRequest = _dbContext.Requests.FirstOrDefault(r => r.Id == request.Id);
 
-    if (finishedRequest != null)
+    if (finishedRequest == null) return;
+    if (finishedRequest.Status != "Готова к выдаче")
     {
-      if (finishedRequest.Status != "Готова к выдаче")
-      {
-        MessageBox.Show("Выбирите нужный статус для завершения!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      MessageBox.Show("Выбирите нужный статус для завершения!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
-        return;
-      }
+      return;
+    }
 
-      finishedRequest.CompletionDate = DateTime.Today.ToString("yyyy-MM-dd");
+    finishedRequest.CompletionDate = DateTime.Today.ToString("yyyy-MM-dd");
 
-      finishedRequest.MasterId = null;
+    finishedRequest.MasterId = null;
    
 
-      MessageBox.Show("Работа успешно выполнена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+    MessageBox.Show("Работа успешно выполнена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
 
-      _dbContext.Requests.Update(finishedRequest);
-      _dbContext.SaveChanges();
+    _dbContext.Requests.Update(finishedRequest);
+    _dbContext.SaveChanges();
 
-      _requests.Remove(finishedRequest);
-    }
+    _requests.Remove(finishedRequest);
   }
 }

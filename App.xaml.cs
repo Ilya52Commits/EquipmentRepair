@@ -7,7 +7,7 @@ namespace EquipmentRepair;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App
 {
   private readonly DbContext _dbContext = new();
 
@@ -21,19 +21,18 @@ public partial class App : Application
                                                                     && admin.Password == "Admin"
                                                                     && admin.Phone == "Admin");
 
-    if (isThereMainAdmin == null)
+    if (isThereMainAdmin != null) return;
+    
+    var newMainAdmin = new Admin
     {
-      var newMainAdmin = new Admin
-      {
-        Name = "Admin",
-        Login = "Admin",
-        Password = "Admin",
-        Phone = "Admin",
-      };
+      Name = "Admin",
+      Login = "Admin",
+      Password = "Admin",
+      Phone = "Admin",
+    };
 
-      _dbContext.Admins.Add(newMainAdmin);
-      _dbContext.SaveChanges();
-    }
+    _dbContext.Admins.Add(newMainAdmin);
+    _dbContext.SaveChanges();
   }
 
   /// <summary>ы
@@ -42,7 +41,7 @@ public partial class App : Application
   private void AddTheFirstsUsers()
   {
     var hasContentClients = _dbContext.Clients.Any();
-    var hasContentManagers = _dbContext.Menegers.Any();
+    var hasContentManagers = _dbContext.Managers.Any();
     var hasContentTechnician = _dbContext.Technicians.Any();
     var hasContentOperator = _dbContext.Operators.Any();
 
@@ -50,35 +49,33 @@ public partial class App : Application
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
-      var splitedFile = fileForFirstUsers.Split('\n');
+      var splitFile = fileForFirstUsers.Split('\n');
 
-      foreach (var line in splitedFile)
+      foreach (var line in splitFile)
       {
-        var splitedLine = line.Split(';');
+        var splitLine = line.Split(';');
 
         try
         {
-          int.Parse(splitedLine[0]);
+          _ = int.Parse(splitLine[0]);
         }
         catch
         {
           continue;
         }
 
-        if (splitedLine[5].Trim() == "Заказчик")
+        if (splitLine[5].Trim() != "Заказчик") continue;
+        var newClient = new Client
         {
-          var newClient = new Client
-          {
-            Id = int.Parse(splitedLine[0].Trim()),
-            Name = splitedLine[1].Trim(),
-            Phone = splitedLine[2].Trim(),
-            Login = splitedLine[3].Trim(),
-            Password = splitedLine[4].Trim(),
-          };
+          Id = int.Parse(splitLine[0].Trim()),
+          Name = splitLine[1].Trim(),
+          Phone = splitLine[2].Trim(),
+          Login = splitLine[3].Trim(),
+          Password = splitLine[4].Trim(),
+        };
 
-          _dbContext.Clients.Add(newClient);
-          _dbContext.SaveChanges();
-        }
+        _dbContext.Clients.Add(newClient);
+        _dbContext.SaveChanges();
       }
     }
 
@@ -86,35 +83,33 @@ public partial class App : Application
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
-      var splitedFile = fileForFirstUsers.Split('\n');
+      var splitFile = fileForFirstUsers.Split('\n');
 
-      foreach (var line in splitedFile)
+      foreach (var line in splitFile)
       {
-        var splitedLine = line.Split(';');
+        var splitLine = line.Split(';');
 
         try
         {
-          int.Parse(splitedLine[0]);
+          _ = int.Parse(splitLine[0]);
         }
         catch
         {
           continue;
         }
 
-        if (splitedLine[5].Trim() == "Менеджер")
+        if (splitLine[5].Trim() != "Менеджер") continue;
+        var newManager = new Manager
         {
-          var newMeneger = new Meneger
-          {
-            Id = int.Parse(splitedLine[0].Trim()),
-            Name = splitedLine[1].Trim(),
-            Phone = splitedLine[2].Trim(),
-            Login = splitedLine[3].Trim(),
-            Password = splitedLine[4].Trim(),
-          };
+          Id = int.Parse(splitLine[0].Trim()),
+          Name = splitLine[1].Trim(),
+          Phone = splitLine[2].Trim(),
+          Login = splitLine[3].Trim(),
+          Password = splitLine[4].Trim(),
+        };
 
-          _dbContext.Menegers.Add(newMeneger);
-          _dbContext.SaveChanges();
-        }
+        _dbContext.Managers.Add(newManager);
+        _dbContext.SaveChanges();
       }
     }
 
@@ -122,30 +117,30 @@ public partial class App : Application
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
-      var splitedFile = fileForFirstUsers.Split('\n');
+      var splitFile = fileForFirstUsers.Split('\n');
 
-      foreach (var line in splitedFile)
+      foreach (var line in splitFile)
       {
-        var splitedLine = line.Split(';');
+        var splitLine = line.Split(';');
 
         try
         {
-          int.Parse(splitedLine[0]);
+          _ = int.Parse(splitLine[0]);
         }
         catch
         {
           continue;
         }
 
-        if (splitedLine[5].Trim() == "Техник")
+        if (splitLine[5].Trim() == "Техник")
         {
           var newTechnician = new Technician
           {
-            Id = int.Parse(splitedLine[0].Trim()),
-            Name = splitedLine[1].Trim(),
-            Phone = splitedLine[2].Trim(),
-            Login = splitedLine[3].Trim(),
-            Password = splitedLine[4].Trim(),
+            Id = int.Parse(splitLine[0].Trim()),
+            Name = splitLine[1].Trim(),
+            Phone = splitLine[2].Trim(),
+            Login = splitLine[3].Trim(),
+            Password = splitLine[4].Trim(),
           };
 
           _dbContext.Technicians.Add(newTechnician);
@@ -154,39 +149,37 @@ public partial class App : Application
       }
     }
 
-    if (!hasContentOperator)
+    if (hasContentOperator) return;
     {
       var fileForFirstUsers = File.ReadAllText(@"import/inputDataUsers.txt");
 
-      var splitedFile = fileForFirstUsers.Split('\n');
+      var splitFile = fileForFirstUsers.Split('\n');
 
-      foreach (var line in splitedFile)
+      foreach (var line in splitFile)
       {
-        var splitedLine = line.Split(';');
+        var splitLine = line.Split(';');
 
         try
         {
-          int.Parse(splitedLine[0]);
+          _ = int.Parse(splitLine[0]);
         }
         catch
         {
           continue;
         }
 
-        if (splitedLine[5].Trim() == "Оператор")
+        if (splitLine[5].Trim() != "Оператор") continue;
+        var newOperator = new Operator
         {
-          var newOperator = new Operator
-          {
-            Id = int.Parse(splitedLine[0].Trim()),
-            Name = splitedLine[1].Trim(),
-            Phone = splitedLine[2].Trim(),
-            Login = splitedLine[3].Trim(),
-            Password = splitedLine[4].Trim(),
-          };
+          Id = int.Parse(splitLine[0].Trim()),
+          Name = splitLine[1].Trim(),
+          Phone = splitLine[2].Trim(),
+          Login = splitLine[3].Trim(),
+          Password = splitLine[4].Trim(),
+        };
 
-          _dbContext.Operators.Add(newOperator);
-          _dbContext.SaveChanges();
-        }
+        _dbContext.Operators.Add(newOperator);
+        _dbContext.SaveChanges();
       }
     }
   }
@@ -196,68 +189,66 @@ public partial class App : Application
   /// </summary>
   private void AddTheFirstsRequests()
   {
-    bool hasContentRequests = _dbContext.Requests.Any();
+    var hasContentRequests = _dbContext.Requests.Any();
 
-    if (!hasContentRequests)
+    if (hasContentRequests) return;
+    var fileForFirstUsers = File.ReadAllText(@"import/inputDataRequests.txt");
+
+    var splitFile = fileForFirstUsers.Split('\n');
+
+    foreach (var line in splitFile)
     {
-      var fileForFirstUsers = File.ReadAllText(@"import/inputDataRequests.txt");
+      var splitLine = line.Split(';');
 
-      var splitedFile = fileForFirstUsers.Split('\n');
-
-      foreach (var line in splitedFile)
+      try
       {
-        var splitedLine = line.Split(';');
+        _ = int.Parse(splitLine[0]);
+      }
+      catch
+      {
+        continue;
+      }
 
-        try
+      try
+      {
+        _ = int.Parse(splitLine[8]);
+      }
+      catch
+      {
+        var newReq = new Request
         {
-          int.Parse(splitedLine[0]);
-        }
-        catch
-        {
-          continue;
-        }
-
-        try
-        {
-          int.Parse(splitedLine[8]);
-        }
-        catch
-        {
-          var newReq = new Request
-          {
-            Id = int.Parse(splitedLine[0]),
-            StartDate = splitedLine[1],
-            TypeEquipment = splitedLine[2],
-            ModelEquipment = splitedLine[3],
-            DescriptionFault = splitedLine[4],
-            Status = splitedLine[5],
-            CompletionDate = splitedLine[6],
-            ClientId = int.Parse(splitedLine[9]),
-          };
-
-          _dbContext.Requests.Add(newReq);
-          _dbContext.SaveChanges();
-
-          continue;
-        }
-
-        var newRequest = new Request
-        {
-          Id = int.Parse(splitedLine[0]),
-          StartDate = splitedLine[1],
-          TypeEquipment = splitedLine[2],
-          ModelEquipment = splitedLine[3],
-          DescriptionFault = splitedLine[4],
-          Status = splitedLine[5],
-          CompletionDate = splitedLine[6],
-          RepairParts = null,
-          MasterId = int.Parse(splitedLine[8]),
-          ClientId = int.Parse(splitedLine[9]),
+          Id = int.Parse(splitLine[0]),
+          StartDate = splitLine[1],
+          TypeEquipment = splitLine[2],
+          ModelEquipment = splitLine[3],
+          DescriptionFault = splitLine[4],
+          Status = splitLine[5],
+          CompletionDate = splitLine[6],
+          ClientId = int.Parse(splitLine[9]),
         };
 
-        _dbContext.Requests.Add(newRequest);
+        _dbContext.Requests.Add(newReq);
         _dbContext.SaveChanges();
+
+        continue;
       }
+
+      var newRequest = new Request
+      {
+        Id = int.Parse(splitLine[0]),
+        StartDate = splitLine[1],
+        TypeEquipment = splitLine[2],
+        ModelEquipment = splitLine[3],
+        DescriptionFault = splitLine[4],
+        Status = splitLine[5],
+        CompletionDate = splitLine[6],
+        RepairParts = null,
+        MasterId = int.Parse(splitLine[8]),
+        ClientId = int.Parse(splitLine[9]),
+      };
+
+      _dbContext.Requests.Add(newRequest);
+      _dbContext.SaveChanges();
     }
   }
 

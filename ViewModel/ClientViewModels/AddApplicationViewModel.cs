@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace EquipmentRepair.ViewModel.ClientViewModels;
 
-internal sealed partial class AddApplicationViewModel : BaseViewModel
+internal sealed class AddApplicationViewModel : BaseViewModel
 {
   private readonly DbContext _dbContext;
 
@@ -49,7 +49,7 @@ internal sealed partial class AddApplicationViewModel : BaseViewModel
 
   public AddApplicationViewModel(Client client)
   {
-    _dbContext = new();
+    _dbContext = new DbContext();
 
     _client = client;
 
@@ -57,18 +57,18 @@ internal sealed partial class AddApplicationViewModel : BaseViewModel
     _typeEquipment = string.Empty;
     _modelEquipment = string.Empty;
 
-    AddNewRequestCommand = new RelayCommand(AddNewRequestCommandExecude);
-    NavigateToClientPageCommand = new RelayCommand(NavigateToClientPageCommandExecude);
+    AddNewRequestCommand = new RelayCommand(AddNewRequestCommandExecute);
+    NavigateToClientPageCommand = new RelayCommand(NavigateToClientPageCommandExecute);
   }
 
   /// <summary>
   /// Метод перехода на страницу авторизации
   /// </summary>
-  private void NavigateToClientPageCommandExecude()
+  private void NavigateToClientPageCommandExecute()
   {
     _dbContext.SaveChanges();
 
-    var mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+    var mainWindow = Application.Current.MainWindow as MainWindow;
 
     mainWindow?.MainFrame.NavigationService.Navigate(new ClientView(_client));
   }
@@ -76,19 +76,29 @@ internal sealed partial class AddApplicationViewModel : BaseViewModel
   /// <summary>
   /// Добавление нового пользователя
   /// </summary>
-  private void AddNewRequestCommandExecude()
+  private void AddNewRequestCommandExecute()
   {
+    var k = 1;
+
+    while (true)
+    {
+      var isAlreadyBeenId = _dbContext.Requests.FirstOrDefault(r => r.Id == k);
+
+      if (isAlreadyBeenId == null)
+        break;
+
+      k++;
+    }
+    
     var newRequest = new Request
     {
+      Id = k,
       StartDate = DateTime.Today.ToString("yyyy-MM-dd"),
       TypeEquipment = _typeEquipment,
       ModelEquipment = _modelEquipment,
       DescriptionFault = _descriptionFault,
-      MasterId = 0,
       ClientId = _client.Id,
-      CompletionDate = null,
       Status = "Новая заявка",
-      RepairParts = null,
     };
 
     _dbContext.Requests.Add(newRequest);

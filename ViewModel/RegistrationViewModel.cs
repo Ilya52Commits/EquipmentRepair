@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows;
 
 namespace EquipmentRepair.ViewModel;
-internal sealed partial class RegistrationViewModel : BaseViewModel
+internal sealed class RegistrationViewModel : BaseViewModel
 {
   private readonly DbContext _dbContext;
 
@@ -58,25 +58,25 @@ internal sealed partial class RegistrationViewModel : BaseViewModel
 
   public RegistrationViewModel()
   {
-    _dbContext = new();
+    _dbContext = new DbContext();
 
     _login = string.Empty;
     _email = string.Empty;
     _password = string.Empty; 
     _confPassword = string.Empty;
 
-    AddNewClientCommand = new RelayCommand(AddNewClientCommandExecude);
-    NavigateToAuthorizationPageCommand = new RelayCommand(NavigateToAuthorizationPageCommandExecude);
+    AddNewClientCommand = new RelayCommand(AddNewClientCommandExecute);
+    NavigateToAuthorizationPageCommand = new RelayCommand(NavigateToAuthorizationPageCommandExecute);
   }
 
   /// <summary>
   /// Метод перехода на страницу авторизации
   /// </summary>
-  private void NavigateToAuthorizationPageCommandExecude()
+  private void NavigateToAuthorizationPageCommandExecute()
   {
     _dbContext.SaveChanges();
 
-    var mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+    var mainWindow = Application.Current.MainWindow as MainWindow;
 
     mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
   }
@@ -84,7 +84,7 @@ internal sealed partial class RegistrationViewModel : BaseViewModel
   /// <summary>
   /// Добавление нового пользователя
   /// </summary>
-  private void AddNewClientCommandExecude()
+  private void AddNewClientCommandExecute()
   {
     var newClient = new Client
     {
@@ -97,7 +97,7 @@ internal sealed partial class RegistrationViewModel : BaseViewModel
 
     MessageBox.Show("Успешно!", "Пользователь успешно добавлен!", MessageBoxButton.OK, MessageBoxImage.Information);
 
-    NavigateToAuthorizationPageCommandExecude();
+    NavigateToAuthorizationPageCommandExecute();
   }
 }
 

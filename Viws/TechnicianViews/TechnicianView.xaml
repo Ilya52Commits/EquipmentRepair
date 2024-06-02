@@ -88,7 +88,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                Command="{Binding DataContext.FinishrequestCommand,
+                                Command="{Binding DataContext.FinishRequestCommand,
                                 ElementName=TechReq}"  
                                 Content="Заняться" 
                                 Width="100"

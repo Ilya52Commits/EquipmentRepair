@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows;
 
 namespace EquipmentRepair.ViewModel;
-internal sealed partial class AuthorizationViewModel : BaseViewModel
+internal sealed class AuthorizationViewModel : BaseViewModel
 {
   private readonly DbContext _dbContext;
 
@@ -36,19 +36,19 @@ internal sealed partial class AuthorizationViewModel : BaseViewModel
 
   public AuthorizationViewModel()
   {
-    _dbContext = new();
+    _dbContext = new DbContext();
 
     _login = string.Empty;
     _password = string.Empty;
 
     AuthorizationCommand = new RelayCommand(AuthorizationCommandExecute);
-    NavigateToRegistrationPageCommand = new RelayCommand(NavigateToRegistrationPageCommandExecude);
+    NavigateToRegistrationPageCommand = new RelayCommand(NavigateToRegistrationPageCommandExecute);
   }
 
   /// <summary>
   /// Метод перехода на страницу авторизации
   /// </summary>
-  private void NavigateToRegistrationPageCommandExecude()
+  private void NavigateToRegistrationPageCommandExecute()
   {
     _dbContext.SaveChanges();
 
@@ -62,24 +62,24 @@ internal sealed partial class AuthorizationViewModel : BaseViewModel
   /// </summary>
   private void AuthorizationCommandExecute()
   {
-    var findedClient = _dbContext.Clients.FirstOrDefault(client => client.Login == _login && client.Password == _password);
-    var findedTechnician = _dbContext.Technicians.FirstOrDefault(client => client.Login == _login && client.Password == _password);
+    var foundClient = _dbContext.Clients.FirstOrDefault(client => client.Login == _login && client.Password == _password);
+    var foundTechnician = _dbContext.Technicians.FirstOrDefault(client => client.Login == _login && client.Password == _password);
 
-    if (findedClient != null)
+    if (foundClient != null)
     {
       MessageBox.Show("Здравствуйте, дорогой клиент!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
       var mainWindow = Application.Current.MainWindow as MainWindow;
 
-      mainWindow?.MainFrame.NavigationService.Navigate(new ClientView(findedClient));
+      mainWindow?.MainFrame.NavigationService.Navigate(new ClientView(foundClient));
     }
-    else if (findedTechnician != null)
+    else if (foundTechnician != null)
     {
       MessageBox.Show("Добрый день, уважаемый техник!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
       var mainWindow = Application.Current.MainWindow as MainWindow;
 
-      mainWindow?.MainFrame.NavigationService.Navigate(new TechnicianViews(findedTechnician));
+      mainWindow?.MainFrame.NavigationService.Navigate(new TechnicianViews(foundTechnician));
     }
     else
     {

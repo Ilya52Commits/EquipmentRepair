@@ -1,51 +1,48 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EquipmentRepair.Models;
+﻿namespace EquipmentRepair.Models;
 
 public class Admin
 {
-  public int Id { get; set; }
-  public string? Name { get; set; }
-  public string? Phone { get; set; }
-  public string? Login { get; set; }
-  public string? Password { get; set; }
+  public int Id { get; init; }
+  public string? Name { get; init; }
+  public string? Phone { get; init; }
+  public string? Login { get; init; }
+  public string? Password { get; init; }
 }
 
 public class Client
 {
-  public int Id { get; set; }
-  public string? Name { get; set; }
-  public string? Phone { get; set; }
-  public string? Login { get; set; }
-  public string? Password { get; set; }
+  public int Id { get; init; }
+  public string? Name { get; init; }
+  public string? Phone { get; init; }
+  public string? Login { get; init; }
+  public string? Password { get; init; }
 }
 
-public class Meneger
+public class Manager
 {
-  public int Id { get; set; }
-  public string? Name { get; set; }
-  public string? Phone { get; set; }
-  public string? Login { get; set; }
-  public string? Password { get; set; }
+  public int Id { get; init; }
+  public string? Name { get; init; }
+  public string? Phone { get; init; }
+  public string? Login { get; init; }
+  public string? Password { get; init; }
 }
 
 public class Technician
 {
-  public int Id { get; set; }
-  public string? Name { get; set; }
-  public string? Phone { get; set; }
-  public string? Login { get; set; }
-  public string? Password { get; set; }
+  public int Id { get; init; }
+  public string? Name { get; init; }
+  public string? Phone { get; init; }
+  public string? Login { get; init; }
+  public string? Password { get; init; }
 }
 
 public class Operator
 {
-  public int Id { get; set; }
-  public string? Name { get; set; }
-  public string? Phone { get; set; }
-  public string? Login { get; set; }
-  public string? Password { get; set; }
+  public int Id { get; init; }
+  public string? Name { get; init; }
+  public string? Phone { get; init; }
+  public string? Login { get; init; }
+  public string? Password { get; init; }
 }
 
 public class Request
@@ -57,7 +54,7 @@ public class Request
   public string? DescriptionFault { get; set; }
   public string? Status { get; set; }
   public string? CompletionDate { get; set; }
-  public string? RepairParts { get; set; }
+  public string? RepairParts { get; init; }
   public int? MasterId { get; set; }
-  public int? ClientId { get; set; }
+  public int? ClientId { get; init; }
 }
