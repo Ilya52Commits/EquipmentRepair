@@ -1,0 +1,98 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:clientViewModels="clr-namespace:EquipmentRepairAvaloniaUI.MVVM.ViewModels.ClientViewModels"
+             mc:Ignorable="d" 
+             Height="800"
+             x:DataType="clientViewModels:ClientViewModel"
+             x:Class="EquipmentRepairAvaloniaUI.MVVM.Views.ClientViews.ClientView">
+    <Grid RowDefinitions="100,200,*">
+
+        <StackPanel Grid.Row="0" Margin="30, 10, 30, 0"  VerticalAlignment="Top">
+            <Button
+                Command="{Binding NavigateToAuthorizationCommand}"  
+                Content="Назад" 
+                Width="100"
+                HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="0" Margin="140, 10, 30, 0"  
+            VerticalAlignment="Top">
+            <Button 
+                Command="{Binding NavigateToAddApplicationCommand}" 
+                Content="Создать заявку" 
+                Width="150" 
+                HorizontalAlignment="Left"/>
+        </StackPanel>
+        
+        <TextBox
+            Grid.Row="1" Height="30" 
+            Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
+            Foreground="White"
+            BorderBrush="White"  
+            BorderThickness="0, 0, 0, 1" 
+            Watermark="Поиск"
+            Margin="30, 0, 0, 150" 
+            Width="300" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Center"
+            Padding="0, 0, 10, 0"
+            FontSize="15"/>
+
+        <DataGrid
+            Grid.Row="2"
+            x:Name="RequestDataGrid"
+            ItemsSource="{Binding Requests}"
+            AutoGenerateColumns="False"
+            Margin="30, 10, 30, 0" 
+            VerticalAlignment="Center">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Binding="{Binding Id}"
+                    IsReadOnly="True"
+                    Header="Номер заявки"/>
+                <DataGridTextColumn 
+                    Binding="{Binding StartDate}"
+                    IsReadOnly="True"
+                    Header="Дата добавления"/>
+                <DataGridTextColumn 
+                    Binding="{Binding TypeEquipment}"
+                    Header="Тип устройства"/>
+                <DataGridTextColumn 
+                    Binding="{Binding ModelEquipment}"
+                    Header="Модель устройства"/>
+                <DataGridTextColumn 
+                    Binding="{Binding DescriptionFault}"
+                    Header="Описание проблемы"/>
+                <DataGridTextColumn 
+                    Binding="{Binding Status}" 
+                    IsReadOnly="True"
+                    Header="Статус заявки"/>
+                <DataGridTextColumn 
+                    Binding="{Binding CompletionDate}"
+                    IsReadOnly="True"
+                    Header="Дата завершения"/>
+                <DataGridTemplateColumn  
+                    Width="auto" 
+                    MinWidth="20" 
+                    Header="Завершить работу">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding #RequestDataGrid.((clientViewModels:ClientViewModel)DataContext).DeleteRequestCommand}"  
+                                CommandParameter="{Binding}"
+                                Content="Удалить" 
+                                Height="30"
+                                Width="100"
+                                HorizontalAlignment="Left"
+                            />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

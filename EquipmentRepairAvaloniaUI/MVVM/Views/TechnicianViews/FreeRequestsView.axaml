@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="450"
+             x:Class="EquipmentRepairAvaloniaUI.MVVM.Views.TechnicianViews.FreeRequestsView"
+             xmlns:technicianViewModels="clr-namespace:EquipmentRepairAvaloniaUI.MVVM.ViewModels.TechnicianViewModels"
+             x:DataType="technicianViewModels:FreeRequestsViewModel">
+
+    <Grid RowDefinitions="*">
+        <StackPanel Margin="30, 10, 30, 0" VerticalAlignment="Top">
+            <Button
+                Command="{Binding NavigateToTechnicianPageCommand}"
+                Content="Назад"
+                Width="100"
+                HorizontalAlignment="Left" />
+        </StackPanel>
+
+        <Label
+            Margin="30, 50, 30, 0"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Content="СПИСОК СВОБОДНЫХ ЗАЯВОК" />
+
+        <DataGrid
+            x:Name="RequestsDataGrid"
+            ItemsSource="{Binding Requests}"
+            AutoGenerateColumns="False"
+            Grid.Row="0"
+            Margin="30, 10, 30, 0"
+            VerticalAlignment="Center">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding Id}"
+                    IsReadOnly="True"
+                    Header="Номер заявки" />
+                <DataGridTextColumn
+                    Binding="{Binding StartDate}"
+                    IsReadOnly="True"
+                    Header="Дата добавления" />
+                <DataGridTextColumn
+                    Binding="{Binding TypeEquipment}"
+                    IsReadOnly="True"
+                    Header="Тип устройства" />
+                <DataGridTextColumn
+                    Binding="{Binding ModelEquipment}"
+                    IsReadOnly="True"
+                    Header="Модель устройства" />
+                <DataGridTextColumn
+                    Binding="{Binding DescriptionFault}"
+                    IsReadOnly="True"
+                    Header="Описание проблемы" />
+                <DataGridTextColumn
+                    Binding="{Binding Status}"
+                    IsReadOnly="True"
+                    Header="Статус" />
+                <DataGridTemplateColumn
+                    Width="auto"
+                    MinWidth="20"
+                    IsReadOnly="True"
+                    Header="Заняться">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding #RequestsDataGrid.((technicianViewModels:FreeRequestsViewModel)DataContext).ApplyRequestCommand}"
+                                Content="Заняться"
+                                Width="100"
+                                CommandParameter="{Binding}"
+                                HorizontalAlignment="Left" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
