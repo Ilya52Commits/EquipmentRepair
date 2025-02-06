@@ -35,11 +35,17 @@
                     Watermark="Логин"
                     Text="{Binding Login}" 
                     FontSize="20"/>
+                
+                <TextBox 
+                    Foreground="Black"
+                    Watermark="Имя"
+                    Text="{Binding Name}" 
+                    FontSize="20"/>
 
                 <TextBox
                     Foreground="Black"
-                    Watermark="Email"
-                    Text="{Binding Email}" 
+                    Watermark="Телефон"
+                    Text="{Binding Phone}" 
                     FontSize="20"/>
 
                 <TextBox 

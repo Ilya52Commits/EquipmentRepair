@@ -36,8 +36,5 @@ internal class SqlRepository<T>(Context context) : IRepository<T> where T : clas
     await context.SaveChangesAsync();
   }
 
-  public async Task SaveAsync()
-  {
-    await context.SaveChangesAsync();
-  }
+  public async Task SaveAsync() => await context.SaveChangesAsync();
 }

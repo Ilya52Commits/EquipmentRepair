@@ -21,7 +21,7 @@ public partial class AuthorizationViewModel(
   TechnicianService technicianService,
   ISessionService sessionService,
   IServiceProvider serviceProvider)
-  : ObservableObject
+  :ObservableObject
 {
   [ObservableProperty] private string _login = string.Empty;
   [ObservableProperty] private string _password = string.Empty;
@@ -35,12 +35,9 @@ public partial class AuthorizationViewModel(
     var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
-
-    // Navigate to the RegistrationView by setting the Content of the ContentControl
+    
     if (mainWindow != null)
-    {
       mainWindow.Content = serviceProvider.GetRequiredService<RegistrationView>();
-    }
   }
 
   /// <summary>
@@ -69,9 +66,7 @@ public partial class AuthorizationViewModel(
 
       // Navigate to the RegistrationView by setting the Content of the ContentControl
       if (mainWindow != null)
-      {
         mainWindow.Content = serviceProvider.GetRequiredService<ClientView>();
-      }
     }
     else if (foundTechnician != null)
     {
@@ -82,16 +77,11 @@ public partial class AuthorizationViewModel(
       var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
         ? desktop.MainWindow as MainView
         : null;
-
-      // Navigate to the RegistrationView by setting the Content of the ContentControl
+      
       if (mainWindow != null)
-      {
         mainWindow.Content = serviceProvider.GetRequiredService<TechnicianView>();
-      }
     }
     else
-    {
       MessageBox.Show("Не удалось войти!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-    }
   }
 }

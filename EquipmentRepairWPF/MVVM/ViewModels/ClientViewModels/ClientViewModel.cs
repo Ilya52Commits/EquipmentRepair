@@ -17,20 +17,10 @@ public sealed partial class ClientViewModel : ObservableObject
   private readonly ISessionService _sessionService;
   private readonly IServiceProvider _serviceProvider;
 
+  [ObservableProperty] private string _pattern;
   [ObservableProperty] private ObservableCollection<Request> _requests;
   [ObservableProperty] private ObservableCollection<Request> _selected;
   [ObservableProperty] private ObservableCollection<string> _notification;
-
-  private string _pattern;
-  public string Pattern
-  {
-    get => _pattern;
-    set {
-      _pattern = value;
-      OnPropertyChanged();
-      PerformSearch();
-    }
-  }
   
   public ClientViewModel(ISessionService sessionService, RequestService requestService,
     IServiceProvider serviceProvider)
@@ -43,6 +33,12 @@ public sealed partial class ClientViewModel : ObservableObject
 
     _pattern = string.Empty;
     _notification = [];
+    
+    PropertyChanged += (s, e) =>
+    {
+      if (e.PropertyName == nameof(Pattern))
+        PerformSearchCommand.Execute(null);
+    };
   }
 
   /// <summary>
@@ -92,6 +88,7 @@ public sealed partial class ClientViewModel : ObservableObject
   /// <summary>
   ///     Поиск данных
   /// </summary>
+  [RelayCommand]
   private void PerformSearch()
   {
     Requests.Clear();

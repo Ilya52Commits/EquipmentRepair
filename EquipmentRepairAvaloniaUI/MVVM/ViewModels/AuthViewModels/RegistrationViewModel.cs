@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using EquipmentRepairAvaloniaUI.MVVM.Views;
 using EquipmentRepairAvaloniaUI.MVVM.Views.AuthViews;
 using EquipmentRepairDomain.EntityFramework.Models;
+using EquipmentRepairDomain.Exceptions;
 using EquipmentRepairDomain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Application = Avalonia.Application;
@@ -17,7 +18,8 @@ public partial class RegistrationViewModel(ClientService clientService, IService
   : ObservableObject
 {
   [ObservableProperty] private string _login = string.Empty; 
-  [ObservableProperty] private string _email = string.Empty;
+  [ObservableProperty] private string _name = string.Empty;
+  [ObservableProperty] private string _phone = string.Empty;
   [ObservableProperty] private string _password = string.Empty;
   [ObservableProperty] private string _confPassword = string.Empty;
 
@@ -33,9 +35,7 @@ public partial class RegistrationViewModel(ClientService clientService, IService
     
     // Navigate to the RegistrationView by setting the Content of the ContentControl
     if (mainWindow != null)
-    {
       mainWindow.Content = serviceProvider.GetRequiredService<AuthorizationView>(); 
-    }
   }
 
   /// <summary>
@@ -45,15 +45,24 @@ public partial class RegistrationViewModel(ClientService clientService, IService
   private async Task AddNewClient()
   {
     var newClient = new Client
+                    {
+                      Login = Login,
+                      Name = Name,
+                      Password = Password, 
+                      Phone = Phone
+                    };
+
+    try
     {
-      Login = Login,
-      Password = Password
-    };
-
-    await clientService.AddClientAsync(newClient);
-
-    MessageBox.Show("Успешно!", "Пользователь успешно добавлен!", MessageBoxButton.OK, MessageBoxImage.Information);
-
-    NavigateToAuthorizationPage();
+      await clientService.AddClientAsync(newClient);
+      
+      MessageBox.Show("Успешно!", "Пользователь успешно добавлен!", MessageBoxButton.OK, MessageBoxImage.Information);
+      NavigateToAuthorizationPage();
+    }
+    catch (UserValidationException ex)
+    {
+      // Обработка ошибок валидации
+      MessageBox.Show($"Ошибка валидации пользователя \"{ex.Message}\"", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
   }
 }

@@ -16,41 +16,39 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EquipmentRepairAvaloniaUI.MVVM.ViewModels.ClientViewModels;
 
-public partial class ClientViewModel : ObservableObject
+public partial class ClientViewModel:ObservableObject
 {
   private readonly RequestService _requestService;
   private readonly ISessionService _sessionService;
   private readonly IServiceProvider _serviceProvider;
 
+  [ObservableProperty] private string _pattern;
   [ObservableProperty] private ObservableCollection<Request> _requests;
   [ObservableProperty] private ObservableCollection<Request> _selected;
   [ObservableProperty] private ObservableCollection<string> _notification;
-
-  private string _pattern;
-  public string Pattern
-  {
-    get => _pattern;
-    set
-    {
-      _pattern = value;
-      OnPropertyChanged();
-      PerformSearch();
-    }
-  }
-
+  
   public ClientViewModel(ISessionService sessionService, RequestService requestService,
     IServiceProvider serviceProvider)
   {
     _requestService = requestService;
     _sessionService = sessionService;
     _serviceProvider = serviceProvider;
-
-    _ = LoadAsync();
-
+    
     _pattern = string.Empty;
     _notification = [];
+    
+    PropertyChanged += (s, e) =>
+    {
+      if (e.PropertyName == nameof(Pattern))
+        PerformSearchCommand.Execute(null);
+    };
   }
-
+  
+  /// <summary>
+  ///     Асинхронная инициализация ViewModel
+  /// </summary>
+  public async Task InitializeAsync() => await LoadAsync();
+  
   /// <summary>
   ///     Загрузка контента
   /// </summary>
@@ -101,11 +99,13 @@ public partial class ClientViewModel : ObservableObject
   {
     await _requestService.DeleteRequestAsync(request.Id);
     Requests.Remove(request);
+    Selected.Remove(request); 
   }
 
   /// <summary>
   ///     Поиск данных
   /// </summary>
+  [RelayCommand]
   private void PerformSearch()
   {
     Requests.Clear();

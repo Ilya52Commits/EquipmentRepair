@@ -17,70 +17,68 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EquipmentRepairAvaloniaUI;
 
-public partial class App : Application
+public class App : Application
 {
-    public override void Initialize()
+  public override void Initialize()
+  {
+    AvaloniaXamlLoader.Load(this);
+  }
+
+  public override void OnFrameworkInitializationCompleted()
+  {
+    var configuration = new ConfigurationBuilder()
+      .SetBasePath(Directory.GetCurrentDirectory())
+      .AddJsonFile("appsettings.json")
+      .Build();
+
+    var serviceCollection = new ServiceCollection();
+    ServiceConfigurator.ConfigureServices(serviceCollection, configuration);
+
+    serviceCollection.AddTransient<FreeRequestsViewModel>();
+    serviceCollection.AddTransient<FreeRequestsView>();
+
+    serviceCollection.AddTransient<AddApplicationViewModel>();
+    serviceCollection.AddTransient<AddApplicationView>();
+
+    serviceCollection.AddTransient<RegistrationViewModel>();
+    serviceCollection.AddTransient<RegistrationView>();
+
+    serviceCollection.AddTransient<ClientViewModel>();
+    serviceCollection.AddTransient<ClientView>();
+
+    serviceCollection.AddTransient<AuthorizationViewModel>();
+    serviceCollection.AddTransient<AuthorizationView>();
+
+    serviceCollection.AddTransient<TechnicianViewModel>();
+    serviceCollection.AddTransient<TechnicianView>();
+
+    var serviceProvider = serviceCollection.BuildServiceProvider();
+
+    if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
     {
-        AvaloniaXamlLoader.Load(this);
-    }
-    
-    public override void OnFrameworkInitializationCompleted()
-    {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-        
-        var serviceCollection = new ServiceCollection();
-        ServiceConfigurator.ConfigureServices(serviceCollection, configuration);
+      DisableAvaloniaDataAnnotationValidation();
+      var mainView = new MainView();
+      
+      var authorizationView = serviceProvider.GetRequiredService<AuthorizationView>();
+      
+      mainView.SetContent(authorizationView);
 
-        serviceCollection.AddTransient<FreeRequestsViewModel>();
-        serviceCollection.AddTransient<FreeRequestsView>();
-
-        serviceCollection.AddTransient<AddApplicationViewModel>();
-        serviceCollection.AddTransient<AddApplicationView>();
-        
-        serviceCollection.AddTransient<RegistrationViewModel>();
-        serviceCollection.AddTransient<RegistrationView>();
-    
-        serviceCollection.AddTransient<ClientViewModel>();
-        serviceCollection.AddTransient<ClientView>();
-    
-        serviceCollection.AddTransient<AuthorizationViewModel>();
-        serviceCollection.AddTransient<AuthorizationView>();
-
-        serviceCollection.AddTransient<TechnicianViewModel>();
-        serviceCollection.AddTransient<TechnicianView>();   
-    
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            DisableAvaloniaDataAnnotationValidation();
-            var mainView = new MainView();
-    
-            // Получаем AuthorizationView из контейнера зависимостей
-            var authorizationView = serviceProvider.GetRequiredService<AuthorizationView>();
-    
-            // Устанавливаем содержимое
-            mainView.SetContent(authorizationView);
-    
-            desktop.MainWindow = mainView;
-        }
-
-        base.OnFrameworkInitializationCompleted();
+      desktop.MainWindow = mainView;
     }
 
-    private static void DisableAvaloniaDataAnnotationValidation()
-    {
-        // Get an array of plugins to remove
-        var dataValidationPluginsToRemove =
-            BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
+    base.OnFrameworkInitializationCompleted();
+  }
 
-        // remove each entry found
-        foreach (var plugin in dataValidationPluginsToRemove)
-        {
-            BindingPlugins.DataValidators.Remove(plugin);
-        }
+  private static void DisableAvaloniaDataAnnotationValidation()
+  {
+    // Get an array of plugins to remove
+    var dataValidationPluginsToRemove =
+      BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
+
+    // remove each entry found
+    foreach (var plugin in dataValidationPluginsToRemove)
+    {
+      BindingPlugins.DataValidators.Remove(plugin);
     }
+  }
 }

@@ -1,5 +1,8 @@
 namespace EquipmentRepairDomain.Repositories.Interfaces;
 
+/// <summary>
+///     Репозиторий для работы с данными
+/// </summary>
 public interface IRepository<T>
   where T : class
 {
@@ -36,10 +39,4 @@ public interface IRepository<T>
   /// <param name="id"></param>
   /// <returns></returns>
   public Task DeleteAsync(int id);
-  
-  /// <summary>
-  ///     Логика сохранения контекста
-  /// </summary>
-  /// <returns></returns>
-  public Task SaveAsync();
 }
