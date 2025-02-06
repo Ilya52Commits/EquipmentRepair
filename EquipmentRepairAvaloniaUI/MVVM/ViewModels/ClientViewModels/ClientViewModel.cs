@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EquipmentRepairAvaloniaUI.MVVM.ViewModels.ClientViewModels;
 
-public partial class ClientViewModel:ObservableObject
+public partial class ClientViewModel : ObservableObject
 {
   private readonly RequestService _requestService;
   private readonly ISessionService _sessionService;
@@ -26,33 +26,38 @@ public partial class ClientViewModel:ObservableObject
   [ObservableProperty] private ObservableCollection<Request> _requests;
   [ObservableProperty] private ObservableCollection<Request> _selected;
   [ObservableProperty] private ObservableCollection<string> _notification;
-  
+
   public ClientViewModel(ISessionService sessionService, RequestService requestService,
     IServiceProvider serviceProvider)
   {
     _requestService = requestService;
     _sessionService = sessionService;
     _serviceProvider = serviceProvider;
-    
+
     _pattern = string.Empty;
     _notification = [];
-    
-    PropertyChanged += (s, e) =>
+    _requests = [];
+    _selected = [];
+
+    PropertyChanged += (_, e) =>
     {
       if (e.PropertyName == nameof(Pattern))
         PerformSearchCommand.Execute(null);
     };
   }
-  
+
   /// <summary>
   ///     Асинхронная инициализация ViewModel
   /// </summary>
-  public async Task InitializeAsync() => await LoadAsync();
-  
+  public async Task InitializeAsync()
+  {
+    await LoadRequestsAsync();
+  }
+
   /// <summary>
-  ///     Загрузка контента
+  ///     Загрузка заявок
   /// </summary>
-  private async Task LoadAsync()
+  private async Task LoadRequestsAsync()
   {
     var requestsCollection = (await _requestService.GetAllRequestsAsync()).ToList();
 
@@ -68,7 +73,7 @@ public partial class ClientViewModel:ObservableObject
   [RelayCommand]
   private void NavigateToAuthorization()
   {
-    var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+    var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
 
@@ -82,7 +87,7 @@ public partial class ClientViewModel:ObservableObject
   [RelayCommand]
   private void NavigateToAddApplication()
   {
-    var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+    var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
 
@@ -99,7 +104,7 @@ public partial class ClientViewModel:ObservableObject
   {
     await _requestService.DeleteRequestAsync(request.Id);
     Requests.Remove(request);
-    Selected.Remove(request); 
+    Selected.Remove(request);
   }
 
   /// <summary>

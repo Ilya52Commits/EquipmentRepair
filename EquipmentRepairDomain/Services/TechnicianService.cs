@@ -18,8 +18,10 @@ public class TechnicianService(IRepository<Technician> technicianRepository)
   ///     Логика получения всех техников
   /// </summary>
   /// <returns></returns>
-  public Task<IEnumerable<Technician>>? GetAllTechniciansAsync() =>
-    technicianRepository.GetAllAsync() as Task<IEnumerable<Technician>>;
+  public Task<IEnumerable<Technician>> GetAllTechniciansAsync()
+  {
+    return technicianRepository.GetAllAsync();
+  }
 
   /// <summary>
   ///     Логика обновления техника
@@ -34,5 +36,8 @@ public class TechnicianService(IRepository<Technician> technicianRepository)
   ///     Логика удаления техника
   /// </summary>
   /// <param name="id"></param>
-  public async Task DeleteTechnicianAsync(int id) => await technicianRepository.DeleteAsync(id);
+  public async Task DeleteTechnicianAsync(int id)
+  {
+    await technicianRepository.DeleteAsync(id);
+  }
 }

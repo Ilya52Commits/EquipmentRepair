@@ -10,7 +10,8 @@ public class ClientService(IRepository<Client> clientRepository)
   private const string LoginCanNotBeEmptyValidationText = "Логин не может быть пустым.";
   private const string LoginMustBeUniqueValidationText = "Логин должен быть уникальным.";
   private const string UserValidValidationText = "Пользователь валиден.";
-  
+  private const string SomethingWentWrong = "Что-то пошло не так...";
+
   /// <summary>
   ///     Логика добавления клиента
   /// </summary>
@@ -18,10 +19,10 @@ public class ClientService(IRepository<Client> clientRepository)
   public async Task AddClientAsync(Client client)
   {
     var isUserValid = await IsClientValid(client);
-    
+
     if (!isUserValid.IsValid)
-      throw new UserValidationException(isUserValid.Message);
-    
+      throw new UserValidationException(isUserValid.Message ?? SomethingWentWrong);
+
     await clientRepository.AddAsync(client);
   }
 
@@ -29,8 +30,11 @@ public class ClientService(IRepository<Client> clientRepository)
   ///     Логика получения всех клиентов
   /// </summary>
   /// <returns></returns>
-  public Task<IEnumerable<Client>> GetAllClientsAsync() => clientRepository.GetAllAsync();
-  
+  public Task<IEnumerable<Client>> GetAllClientsAsync()
+  {
+    return clientRepository.GetAllAsync();
+  }
+
   /// <summary>
   ///     Логика обновления клиента
   /// </summary>
@@ -44,8 +48,11 @@ public class ClientService(IRepository<Client> clientRepository)
   ///     Логика удаления клиента
   /// </summary>
   /// <param name="id"></param>
-  public async Task DeleteClientAsync(int id) => await clientRepository.DeleteAsync(id);
-  
+  public async Task DeleteClientAsync(int id)
+  {
+    await clientRepository.DeleteAsync(id);
+  }
+
   /// <summary>
   ///     Логика проверки валидности данных клиента
   /// </summary>

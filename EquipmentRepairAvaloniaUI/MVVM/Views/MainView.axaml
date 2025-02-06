@@ -5,6 +5,6 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         Title="EquipmentRepairAvaloniaUI">
-        
-       <ContentControl x:Name="MainContent" />
+
+    <ContentControl x:Name="MainContent" />
 </Window>

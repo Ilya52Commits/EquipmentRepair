@@ -21,7 +21,7 @@ public sealed partial class ClientViewModel : ObservableObject
   [ObservableProperty] private ObservableCollection<Request> _requests;
   [ObservableProperty] private ObservableCollection<Request> _selected;
   [ObservableProperty] private ObservableCollection<string> _notification;
-  
+
   public ClientViewModel(ISessionService sessionService, RequestService requestService,
     IServiceProvider serviceProvider)
   {
@@ -29,12 +29,12 @@ public sealed partial class ClientViewModel : ObservableObject
     _sessionService = sessionService;
     _serviceProvider = serviceProvider;
 
-    _ = LoadAsync();
-
     _pattern = string.Empty;
     _notification = [];
-    
-    PropertyChanged += (s, e) =>
+    _requests = [];
+    _selected = [];
+
+    PropertyChanged += (_, e) =>
     {
       if (e.PropertyName == nameof(Pattern))
         PerformSearchCommand.Execute(null);
@@ -42,9 +42,17 @@ public sealed partial class ClientViewModel : ObservableObject
   }
 
   /// <summary>
-  ///     Загрузка контента
+  ///     Асинхронная инициализация ViewModel
   /// </summary>
-  private async Task LoadAsync()
+  public async Task InitializeAsync()
+  {
+    await LoadRequestsAsync();
+  }
+
+  /// <summary>
+  ///     Загрузка заявок
+  /// </summary>
+  private async Task LoadRequestsAsync()
   {
     var requestsCollection = (await _requestService.GetAllRequestsAsync()).ToList();
 
@@ -73,7 +81,7 @@ public sealed partial class ClientViewModel : ObservableObject
     var mainWindow = System.Windows.Application.Current.MainWindow as MainView;
     mainWindow?.MainFrame.NavigationService.Navigate(_serviceProvider.GetRequiredService<AddApplicationView>());
   }
-  
+
   /// <summary>
   ///     Удаление заявки
   /// </summary>

@@ -13,5 +13,5 @@ public class ValidationResult
   /// <summary>
   ///     Текст ошибки валидации
   /// </summary>
-  public string Message { get; set; }
+  public string? Message { get; set; }
 }

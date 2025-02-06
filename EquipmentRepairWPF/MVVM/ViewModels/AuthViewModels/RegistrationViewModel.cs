@@ -11,10 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 namespace EquipmentRepair.MVVM.ViewModels.AuthViewModels;
 
 public sealed partial class RegistrationViewModel(ClientService clientService, IServiceProvider serviceProvider)
-  :ObservableObject
+  : ObservableObject
 {
-  [ObservableProperty] private string _login = string.Empty; 
-  [ObservableProperty] private string _email = string.Empty;
+  [ObservableProperty] private string _login = string.Empty;
+  [ObservableProperty] private string _name = string.Empty;
+  [ObservableProperty] private string _phone = string.Empty;
   [ObservableProperty] private string _password = string.Empty;
   [ObservableProperty] private string _confPassword = string.Empty;
 
@@ -34,10 +35,18 @@ public sealed partial class RegistrationViewModel(ClientService clientService, I
   [RelayCommand]
   private async Task AddNewClientAsync()
   {
+    if (Password != ConfPassword)
+    {
+      MessageBox.Show("Пароли не совпадают", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      return;
+    }
+
     var newClient = new Client
     {
       Login = Login,
-      Password = Password
+      Name = Name,
+      Password = Password,
+      Phone = Phone
     };
 
     try

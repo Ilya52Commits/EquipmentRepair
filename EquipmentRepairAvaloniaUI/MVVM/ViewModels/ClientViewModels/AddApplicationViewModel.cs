@@ -29,10 +29,10 @@ public sealed partial class AddApplicationViewModel(
   [RelayCommand]
   private void NavigateToClientPage()
   {
-    var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+    var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
-    
+
     if (mainWindow != null)
       mainWindow.Content = serviceProvider.GetRequiredService<ClientView>();
   }
@@ -50,7 +50,7 @@ public sealed partial class AddApplicationViewModel(
       ModelEquipment = ModelEquipment,
       DescriptionFault = DescriptionFault,
       ClientId = sessionService.CurrentUser.Id,
-      Status = "Новая заявка",
+      Status = "Новая заявка"
     };
 
     await requestService.AddRequestAsync(newRequest);

@@ -7,76 +7,75 @@
              x:Class="EquipmentRepairAvaloniaUI.MVVM.Views.TechnicianViews.TechnicianView"
              xmlns:technicianViewModels="clr-namespace:EquipmentRepairAvaloniaUI.MVVM.ViewModels.TechnicianViewModels"
              x:DataType="technicianViewModels:TechnicianViewModel">
-    
+
     <Grid RowDefinitions="*">
-        
-        <StackPanel Margin="30, 10, 30, 0"  VerticalAlignment="Top">
+
+        <StackPanel Margin="30, 10, 30, 0" VerticalAlignment="Top">
             <Button
-                Command="{Binding NavigateToAuthorizationCommand}"  
-                Content="Назад" 
+                Command="{Binding NavigateToAuthorizationCommand}"
+                Content="Назад"
                 Width="100"
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Left" />
         </StackPanel>
-        <StackPanel Grid.Column="0" Margin="150, 10, 30, 0"  VerticalAlignment="Top">
+        <StackPanel Grid.Column="0" Margin="150, 10, 30, 0" VerticalAlignment="Top">
             <Button
-                Command="{Binding NavigateToFreeRequestsPageCommand}"  
-                Content="Свободные заявки" 
+                Command="{Binding NavigateToFreeRequestsPageCommand}"
+                Content="Свободные заявки"
                 Width="170"
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Left" />
         </StackPanel>
 
         <Label
             Grid.Column="0" Margin="30, 50, 30, 0"
-            HorizontalAlignment="Center" 
-            FontSize="20" 
-            FontWeight="Bold" 
-            Content="ВАШИ ЗАЯВКИ НА ВЫПОЛНЕНИЯ"/>
+            HorizontalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Content="ВАШИ ЗАЯВКИ НА ВЫПОЛНЕНИЯ" />
 
         <DataGrid
             x:Name="StatusDataGrid"
             ItemsSource="{Binding Requests}"
-            AutoGenerateColumns="False" Grid.Row="0" 
-            Margin="30, 10, 30, 0" 
+            AutoGenerateColumns="False" Grid.Row="0"
+            Margin="30, 10, 30, 0"
             VerticalAlignment="Center">
 
             <DataGrid.Columns>
-                <DataGridTextColumn 
+                <DataGridTextColumn
                     Binding="{Binding Id}"
                     IsReadOnly="True"
-                    Header="Номер заявки"/>
-                <DataGridTextColumn 
+                    Header="Номер заявки" />
+                <DataGridTextColumn
                     Binding="{Binding StartDate}"
                     IsReadOnly="True"
-                    Header="Дата добавления"/>
-                <DataGridTextColumn 
+                    Header="Дата добавления" />
+                <DataGridTextColumn
                     Binding="{Binding TypeEquipment}"
                     IsReadOnly="True"
-                    Header="Тип устройства"/>
-                <DataGridTextColumn 
+                    Header="Тип устройства" />
+                <DataGridTextColumn
                     Binding="{Binding ModelEquipment}"
                     IsReadOnly="True"
-                    Header="Модель устройства"/>
-                <DataGridTextColumn 
+                    Header="Модель устройства" />
+                <DataGridTextColumn
                     Binding="{Binding DescriptionFault}"
                     IsReadOnly="True"
-                    Header="Описание проблемы"/>
-                <DataGridTextColumn 
-                     Binding="{Binding Status}"
-                     IsReadOnly="True"
-                     Header="Статус"/>
-                <DataGridTemplateColumn  
-                    Width="auto" 
-                    MinWidth="20" 
+                    Header="Описание проблемы" />
+                <DataGridTextColumn
+                    Binding="{Binding Status}"
+                    IsReadOnly="True"
+                    Header="Статус" />
+                <DataGridTemplateColumn
+                    Width="auto"
+                    MinWidth="20"
                     Header="Завершить работу">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                Command="{Binding #StatusDataGrid.((technicianViewModels:TechnicianViewModel)DataContext).FinishRequestCommand}"  
-                                Content="Завершить" 
+                                Command="{Binding #StatusDataGrid.((technicianViewModels:TechnicianViewModel)DataContext).FinishRequestCommand}"
+                                Content="Завершить"
                                 Width="110"
                                 CommandParameter="{Binding}"
-                                HorizontalAlignment="Left"
-                                />
+                                HorizontalAlignment="Left" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

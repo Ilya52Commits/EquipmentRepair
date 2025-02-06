@@ -7,75 +7,76 @@
       mc:Ignorable="d"
       d:DesignHeight="450"
       x:Name="FreeReq"
-      Title="FreeRequestsView" d:DataContext="{d:DesignInstance viewModels:FreeRequestsViewModel, IsDesignTimeCreatable=False}">
-    
+      Title="FreeRequestsView"
+      d:DataContext="{d:DesignInstance viewModels:FreeRequestsViewModel, IsDesignTimeCreatable=False}">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="30, 10, 30, 0"  VerticalAlignment="Top">
+        <StackPanel Margin="30, 10, 30, 0" VerticalAlignment="Top">
             <Button
-                Command="{Binding NavigateToTechnicianPageCommand}"  
-                Content="Назад" 
+                Command="{Binding NavigateToTechnicianPageCommand}"
+                Content="Назад"
                 Width="100"
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Left" />
         </StackPanel>
 
-        <Label 
+        <Label
             Margin="30, 50, 30, 0"
-            HorizontalAlignment="Center" 
-            FontSize="20" 
-            FontWeight="Bold" 
-            Content="СПИСОК СВОБОДНЫХ ЗАЯВОК"/>
+            HorizontalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Content="СПИСОК СВОБОДНЫХ ЗАЯВОК" />
 
         <DataGrid
             ItemsSource="{Binding Requests}"
-            AutoGenerateColumns="False" 
-            Grid.Row="0" 
+            AutoGenerateColumns="False"
+            Grid.Row="0"
             CanUserAddRows="False"
-            Margin="30, 10, 30, 0" 
+            Margin="30, 10, 30, 0"
             VerticalAlignment="Center">
 
             <DataGrid.Columns>
-                <DataGridTextColumn 
+                <DataGridTextColumn
                     Binding="{Binding Id}"
                     IsReadOnly="True"
-                    Header="Номер заявки"/>
-                <DataGridTextColumn 
+                    Header="Номер заявки" />
+                <DataGridTextColumn
                     Binding="{Binding StartDate}"
                     IsReadOnly="True"
-                    Header="Дата добавления"/>
-                <DataGridTextColumn 
+                    Header="Дата добавления" />
+                <DataGridTextColumn
                     Binding="{Binding TypeEquipment}"
                     IsReadOnly="True"
-                    Header="Тип устройства"/>
-                <DataGridTextColumn 
+                    Header="Тип устройства" />
+                <DataGridTextColumn
                     Binding="{Binding ModelEquipment}"
                     IsReadOnly="True"
-                    Header="Модель устройства"/>
-                <DataGridTextColumn 
+                    Header="Модель устройства" />
+                <DataGridTextColumn
                     Binding="{Binding DescriptionFault}"
                     IsReadOnly="True"
-                    Header="Описание проблемы"/>
+                    Header="Описание проблемы" />
                 <DataGridTextColumn
                     Binding="{Binding Status}"
                     IsReadOnly="True"
-                    Header="Статус"/>
-                <DataGridTemplateColumn  
-                    Width="auto" 
-                    MinWidth="20" 
+                    Header="Статус" />
+                <DataGridTemplateColumn
+                    Width="auto"
+                    MinWidth="20"
                     IsReadOnly="True"
                     Header="Заняться">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
                                 Command="{Binding DataContext.ApplyRequestCommand,
-                                ElementName=FreeReq}"  
-                                Content="Заняться" 
+                                ElementName=FreeReq}"
+                                Content="Заняться"
                                 Width="100"
                                 CommandParameter="{Binding}"
-                                HorizontalAlignment="Left"/>
+                                HorizontalAlignment="Left" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

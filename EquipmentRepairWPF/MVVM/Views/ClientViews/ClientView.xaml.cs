@@ -1,6 +1,7 @@
 ﻿using EquipmentRepair.MVVM.ViewModels.ClientViewModels;
 
 namespace EquipmentRepair.MVVM.Views.ClientViews;
+
 /// <summary>
 /// Логика взаимодействия для ClientView.xaml
 /// </summary>
@@ -10,6 +11,9 @@ public partial class ClientView
   {
     InitializeComponent();
 
-    DataContext = clientViewModel;
+    var viewModel = clientViewModel;
+    DataContext = viewModel;
+
+    Loaded += async (_, _) => await viewModel.InitializeAsync();
   }
 }

@@ -8,7 +8,7 @@ public partial class RegistrationView : UserControl
   public RegistrationView(RegistrationViewModel registrationViewModel)
   {
     InitializeComponent();
-    
-    DataContext = registrationViewModel; 
+
+    DataContext = registrationViewModel;
   }
 }

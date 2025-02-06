@@ -8,7 +8,7 @@ public partial class AddApplicationView : UserControl
   public AddApplicationView(AddApplicationViewModel addApplicationViewModel)
   {
     InitializeComponent();
-    
+
     DataContext = addApplicationViewModel;
   }
 }

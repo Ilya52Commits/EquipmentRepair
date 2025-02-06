@@ -8,54 +8,55 @@
              x:DataType="clientViewModels:AddApplicationViewModel"
              x:Class="EquipmentRepairAvaloniaUI.MVVM.Views.ClientViews.AddApplicationView">
     <Grid Width="800" RowDefinitions="*">
-        <Border 
-            Background="White" 
-            MaxWidth="400" 
+        <Border
+            Background="White"
+            MaxWidth="400"
             Margin="100"
             BorderThickness="2"
-            CornerRadius="20" 
+            CornerRadius="20"
             VerticalAlignment="Top">
-            
+
             <Border.Effect>
-                <DropShadowEffect 
+                <DropShadowEffect
                     BlurRadius="20" />
             </Border.Effect>
-            
-            <StackPanel Margin="30, 20,30,20">
-                <Button Command="{Binding NavigateToClientPageCommand}" HorizontalAlignment="Left" Width="100" Content="Назад"/>
 
-                <Label 
+            <StackPanel Margin="30, 20,30,20">
+                <Button Command="{Binding NavigateToClientPageCommand}" HorizontalAlignment="Left" Width="100"
+                        Content="Назад" />
+
+                <Label
                     Foreground="Black"
-                    Content="ДОБАВИТЬ ЗАЯВКУ" 
-                    HorizontalAlignment="Center" 
-                    FontSize="20" 
-                    FontWeight="Bold"/>
-                
-                <TextBox 
+                    Content="ДОБАВИТЬ ЗАЯВКУ"
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold" />
+
+                <TextBox
                     Foreground="Black"
                     Watermark="Тип устройства"
-                    Text="{Binding TypeEquipment}" 
-                    FontSize="20"/>
+                    Text="{Binding TypeEquipment}"
+                    FontSize="20" />
 
-                <TextBox 
+                <TextBox
                     Foreground="Black"
                     Watermark="Модель устройства"
-                    Text="{Binding ModelEquipment}" 
-                    FontSize="20"/>
+                    Text="{Binding ModelEquipment}"
+                    FontSize="20" />
 
-                <TextBox 
+                <TextBox
                     Foreground="Black"
                     Watermark="Описание проблемы"
-                    Text="{Binding DescriptionFault}" 
-                    FontSize="20"/>
-         
-                <Button 
+                    Text="{Binding DescriptionFault}"
+                    FontSize="20" />
+
+                <Button
                     Command="{Binding AddNewRequestCommand}"
                     Margin="0, 20, 0, 0"
-                    Padding="10, 7, 10, 7" 
-                    Height="50"   
-                    Content="Добавить заявку" 
-                    FontSize="20"/>
+                    Padding="10, 7, 10, 7"
+                    Height="50"
+                    Content="Добавить заявку"
+                    FontSize="20" />
             </StackPanel>
         </Border>
     </Grid>

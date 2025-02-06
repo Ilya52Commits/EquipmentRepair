@@ -1,4 +1,3 @@
-using System.IO;
 using EquipmentRepairDomain.EntityFramework;
 using EquipmentRepairDomain.EntityFramework.Models;
 using EquipmentRepairDomain.Repositories.Interfaces;

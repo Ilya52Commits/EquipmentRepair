@@ -8,7 +8,7 @@ public partial class AuthorizationView : UserControl
   public AuthorizationView(AuthorizationViewModel authorizationViewModel)
   {
     InitializeComponent();
-    
+
     DataContext = authorizationViewModel;
   }
 }

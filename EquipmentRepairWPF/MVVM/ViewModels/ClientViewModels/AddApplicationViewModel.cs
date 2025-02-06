@@ -26,7 +26,7 @@ public sealed partial class AddApplicationViewModel(
   private void NavigateToClientPage()
   {
     var mainWindow = Application.Current.MainWindow as MainView;
-    
+
     mainWindow?.MainFrame.NavigationService.Navigate(serviceProvider.GetRequiredService<ClientView>());
   }
 
@@ -43,7 +43,7 @@ public sealed partial class AddApplicationViewModel(
       ModelEquipment = ModelEquipment,
       DescriptionFault = DescriptionFault,
       ClientId = sessionService.CurrentUser.Id,
-      Status = "Новая заявка",
+      Status = "Новая заявка"
     };
 
     await requestService.AddRequestAsync(newRequest);
@@ -51,4 +51,3 @@ public sealed partial class AddApplicationViewModel(
     MessageBox.Show("Успешно!", "Заявление успешно добавлено!", MessageBoxButton.OK, MessageBoxImage.Information);
   }
 }
-

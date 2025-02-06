@@ -6,14 +6,17 @@ namespace EquipmentRepairDomain.EntityFramework;
 internal sealed class Context : DbContext
 {
   #region Объекты таблиц модели
-  
+
   public DbSet<Client> Clients { get; }
   public DbSet<Technician> Technicians { get; }
   public DbSet<Request> Requests { get; }
 
   #endregion
 
-  public Context(DbContextOptions<Context> options) : base(options) => Database.EnsureCreated();
+  public Context(DbContextOptions<Context> options) : base(options)
+  {
+    Database.EnsureCreated();
+  }
 
   /// <summary>
   ///     Логика наполнения бд начальными данными
@@ -44,7 +47,7 @@ internal sealed class Context : DbContext
     #endregion
 
     #region Добавление данных в БД
-    
+
     modelBuilder.Entity<Technician>().HasData(firstTechnician, secondTechnician, thirdTechnician);
     modelBuilder.Entity<Client>().HasData(firstClient, secondClient, thirdClient);
 

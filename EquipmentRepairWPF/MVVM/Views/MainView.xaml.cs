@@ -10,7 +10,7 @@ public partial class MainView
   public MainView(AuthorizationView view)
   {
     InitializeComponent();
-    
+
     MainFrame.NavigationService.Navigate(view);
   }
 }

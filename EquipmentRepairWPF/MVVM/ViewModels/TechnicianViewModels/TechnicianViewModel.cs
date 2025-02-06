@@ -12,27 +12,30 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EquipmentRepair.MVVM.ViewModels.TechnicianViewModels;
 
-public sealed partial class TechnicianViewModel:ObservableObject
+public sealed partial class TechnicianViewModel(
+  ISessionService sessionService,
+  RequestService requestService,
+  IServiceProvider serviceProvider)
+  : ObservableObject
 {
-  private readonly RequestService _requestService;
-  private readonly ISessionService _sessionService;
-  private readonly IServiceProvider _serviceProvider;
+  [ObservableProperty] private ObservableCollection<Request> _requests = [];
 
-  [ObservableProperty] private ObservableCollection<Request> _requests;
-  
-  public TechnicianViewModel(ISessionService sessionService, RequestService requestService, IServiceProvider serviceProvider)
+  /// <summary>
+  ///     Асинхронная инициализация ViewModel
+  /// </summary>
+  public async Task InitializeAsync()
   {
-    _requestService = requestService;
-    _serviceProvider = serviceProvider;
-    _sessionService = sessionService;
-
-    _ = LoadRequests();
+    await LoadRequestsAsync();
   }
-  
-  private async Task LoadRequests()
+
+  /// <summary>
+  /// 
+  /// </summary>
+  private async Task LoadRequestsAsync()
   {
-    var requestCollection = (await _requestService.GetAllRequestsAsync()).ToList();
-    Requests = new ObservableCollection<Request>(requestCollection.Where(r => r.MasterId == _sessionService.CurrentUser.Id));
+    var requestCollection = (await requestService.GetAllRequestsAsync()).ToList();
+    Requests = new ObservableCollection<Request>(requestCollection.Where(r =>
+      r.MasterId == sessionService.CurrentUser.Id));
   }
 
   /// <summary>
@@ -42,17 +45,17 @@ public sealed partial class TechnicianViewModel:ObservableObject
   private void NavigateToAuthorization()
   {
     var mainWindow = Application.Current.MainWindow as MainView;
-    mainWindow?.MainFrame.NavigationService.Navigate(_serviceProvider.GetRequiredService<AuthorizationView>());
+    mainWindow?.MainFrame.NavigationService.Navigate(serviceProvider.GetRequiredService<AuthorizationView>());
   }
-  
+
   /// <summary>
   ///     Переход на страницу свободных заявок
   /// </summary>
   [RelayCommand]
-  private void NavigateToFreeRequestsPage() 
+  private void NavigateToFreeRequestsPage()
   {
     var mainWindow = Application.Current.MainWindow as MainView;
-    mainWindow?.MainFrame.NavigationService.Navigate(_serviceProvider.GetRequiredService<FreeRequestsView>());
+    mainWindow?.MainFrame.NavigationService.Navigate(serviceProvider.GetRequiredService<FreeRequestsView>());
   }
 
   /// <summary>
@@ -61,15 +64,15 @@ public sealed partial class TechnicianViewModel:ObservableObject
   [RelayCommand]
   private async Task FinishRequestAsync(Request request)
   {
-    var finishedRequest = (await _requestService.GetAllRequestsAsync()).FirstOrDefault(r => r.Id == request.Id);
+    var finishedRequest = (await requestService.GetAllRequestsAsync()).FirstOrDefault(r => r.Id == request.Id);
 
     if (finishedRequest == null) return;
 
     finishedRequest.Status = "Готова к выдаче";
     finishedRequest.CompletionDate = DateTime.Today.ToString("yyyy-MM-dd");
     finishedRequest.MasterId = null;
-    
-    await _requestService.UpdateRequestAsync(finishedRequest);
+
+    await requestService.UpdateRequestAsync(finishedRequest);
     Requests.Remove(finishedRequest);
 
     MessageBox.Show("Работа успешно выполнена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);

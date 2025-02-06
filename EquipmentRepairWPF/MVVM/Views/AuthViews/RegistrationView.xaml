@@ -47,9 +47,16 @@
 
                 <TextBox
                     Margin="0 0 0 15"
-                    Text="{Binding Email}"
+                    Text="{Binding Name}"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                    materialDesign:HintAssist.Hint="Почта"
+                    materialDesign:HintAssist.Hint="Имя"
+                    FontSize="20" />
+
+                <TextBox
+                    Margin="0 0 0 15"
+                    Text="{Binding Phone}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    materialDesign:HintAssist.Hint="Телефон"
                     FontSize="20" />
 
                 <components:BindablePasswordBox

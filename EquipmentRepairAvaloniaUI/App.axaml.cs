@@ -58,9 +58,9 @@ public class App : Application
     {
       DisableAvaloniaDataAnnotationValidation();
       var mainView = new MainView();
-      
+
       var authorizationView = serviceProvider.GetRequiredService<AuthorizationView>();
-      
+
       mainView.SetContent(authorizationView);
 
       desktop.MainWindow = mainView;
@@ -76,9 +76,6 @@ public class App : Application
       BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
 
     // remove each entry found
-    foreach (var plugin in dataValidationPluginsToRemove)
-    {
-      BindingPlugins.DataValidators.Remove(plugin);
-    }
+    foreach (var plugin in dataValidationPluginsToRemove) BindingPlugins.DataValidators.Remove(plugin);
   }
 }

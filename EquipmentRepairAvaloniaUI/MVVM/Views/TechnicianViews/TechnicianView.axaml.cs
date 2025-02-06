@@ -8,7 +8,10 @@ public partial class TechnicianView : UserControl
   public TechnicianView(TechnicianViewModel technicianViewModel)
   {
     InitializeComponent();
-    
-    DataContext = technicianViewModel;
+
+    var viewModel = technicianViewModel;
+    DataContext = viewModel;
+
+    Loaded += async (_, _) => await viewModel.InitializeAsync();
   }
 }

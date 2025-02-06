@@ -17,7 +17,7 @@ namespace EquipmentRepairAvaloniaUI.MVVM.ViewModels.AuthViewModels;
 public partial class RegistrationViewModel(ClientService clientService, IServiceProvider serviceProvider)
   : ObservableObject
 {
-  [ObservableProperty] private string _login = string.Empty; 
+  [ObservableProperty] private string _login = string.Empty;
   [ObservableProperty] private string _name = string.Empty;
   [ObservableProperty] private string _phone = string.Empty;
   [ObservableProperty] private string _password = string.Empty;
@@ -29,13 +29,13 @@ public partial class RegistrationViewModel(ClientService clientService, IService
   [RelayCommand]
   private void NavigateToAuthorizationPage()
   {
-    var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+    var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
-    
+
     // Navigate to the RegistrationView by setting the Content of the ContentControl
     if (mainWindow != null)
-      mainWindow.Content = serviceProvider.GetRequiredService<AuthorizationView>(); 
+      mainWindow.Content = serviceProvider.GetRequiredService<AuthorizationView>();
   }
 
   /// <summary>
@@ -44,25 +44,32 @@ public partial class RegistrationViewModel(ClientService clientService, IService
   [RelayCommand]
   private async Task AddNewClient()
   {
+    if (Password != ConfPassword)
+    {
+      MessageBox.Show("Пароли не совпадают", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      return;
+    }
+
     var newClient = new Client
-                    {
-                      Login = Login,
-                      Name = Name,
-                      Password = Password, 
-                      Phone = Phone
-                    };
+    {
+      Login = Login,
+      Name = Name,
+      Password = Password,
+      Phone = Phone
+    };
 
     try
     {
       await clientService.AddClientAsync(newClient);
-      
+
       MessageBox.Show("Успешно!", "Пользователь успешно добавлен!", MessageBoxButton.OK, MessageBoxImage.Information);
       NavigateToAuthorizationPage();
     }
     catch (UserValidationException ex)
     {
       // Обработка ошибок валидации
-      MessageBox.Show($"Ошибка валидации пользователя \"{ex.Message}\"", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      MessageBox.Show($"Ошибка валидации пользователя \"{ex.Message}\"", "Ошибка", MessageBoxButton.OK,
+        MessageBoxImage.Error);
     }
   }
 }

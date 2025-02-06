@@ -18,21 +18,21 @@ public interface IRepository<T>
   /// <param name="id"></param>
   /// <returns></returns>
   public Task<T?> GetByIdAsync(int id);
-  
+
   /// <summary>
   ///     Логика добавления сущности
   /// </summary>
   /// <param name="item"></param>
   /// <returns></returns>
   public Task AddAsync(T item);
-  
+
   /// <summary>
   ///     Логика обновления сущности
   /// </summary>
   /// <param name="item"></param>
   /// <returns></returns>
   public Task UpdateAsync(T item);
-  
+
   /// <summary>
   ///     Логика удаления сущности по Id
   /// </summary>

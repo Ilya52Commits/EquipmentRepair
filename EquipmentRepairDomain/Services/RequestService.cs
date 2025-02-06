@@ -18,8 +18,11 @@ public class RequestService(IRepository<Request> requestRepository)
   ///     Логика получения всех заявок
   /// </summary>
   /// <returns></returns>
-  public Task<IEnumerable<Request>> GetAllRequestsAsync() => requestRepository.GetAllAsync();
-  
+  public Task<IEnumerable<Request>> GetAllRequestsAsync()
+  {
+    return requestRepository.GetAllAsync();
+  }
+
   /// <summary>
   ///     Логика обновления заявки
   /// </summary>
@@ -33,5 +36,8 @@ public class RequestService(IRepository<Request> requestRepository)
   ///     Логика удаления заявки
   /// </summary>
   /// <param name="id"></param>
-  public async Task DeleteRequestAsync(int id) => await requestRepository.DeleteAsync(id);
+  public async Task DeleteRequestAsync(int id)
+  {
+    await requestRepository.DeleteAsync(id);
+  }
 }

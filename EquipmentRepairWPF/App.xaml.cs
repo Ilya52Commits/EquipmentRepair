@@ -31,27 +31,27 @@ public partial class App
 
     serviceCollection.AddTransient<RegistrationViewModel>();
     serviceCollection.AddTransient<RegistrationView>();
-    
+
     serviceCollection.AddTransient<ClientViewModel>();
     serviceCollection.AddTransient<ClientView>();
-    
+
     serviceCollection.AddTransient<AuthorizationViewModel>();
     serviceCollection.AddTransient<AuthorizationView>();
 
     serviceCollection.AddTransient<TechnicianViewModel>();
-    serviceCollection.AddTransient<TechnicianView>();   
+    serviceCollection.AddTransient<TechnicianView>();
 
     serviceCollection.AddTransient<FreeRequestsViewModel>();
     serviceCollection.AddTransient<FreeRequestsView>();
 
     serviceCollection.AddTransient<AddApplicationViewModel>();
     serviceCollection.AddTransient<AddApplicationView>();
-    
+
     var serviceProvider = serviceCollection.BuildServiceProvider();
-    
+
     // Создание MainView с передачей AuthorizationView
     var mainView = new MainView(serviceProvider.GetRequiredService<AuthorizationView>());
-    
+
     MainWindow = mainView;
 
     MainWindow.Show();

@@ -8,20 +8,26 @@ internal class SqlRepository<T>(Context context) : IRepository<T> where T : clas
 {
   private readonly DbSet<T> _dbSet = context.Set<T>();
 
-  public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
+  public async Task<IEnumerable<T>> GetAllAsync()
+  {
+    return await _dbSet.ToListAsync();
+  }
 
-  public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+  public async Task<T?> GetByIdAsync(int id)
+  {
+    return await _dbSet.FindAsync(id);
+  }
 
   public async Task AddAsync(T item)
   {
     await _dbSet.AddAsync(item);
-    await SaveAsync();
+    await context.SaveChangesAsync();
   }
 
   public async Task UpdateAsync(T item)
   {
     _dbSet.Update(item);
-    await SaveAsync();
+    await context.SaveChangesAsync();
   }
 
   public async Task DeleteAsync(int id)
@@ -35,6 +41,4 @@ internal class SqlRepository<T>(Context context) : IRepository<T> where T : clas
 
     await context.SaveChangesAsync();
   }
-
-  public async Task SaveAsync() => await context.SaveChangesAsync();
 }

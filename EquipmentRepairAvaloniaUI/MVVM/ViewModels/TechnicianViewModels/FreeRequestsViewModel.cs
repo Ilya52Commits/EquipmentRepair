@@ -15,27 +15,28 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EquipmentRepairAvaloniaUI.MVVM.ViewModels.TechnicianViewModels;
 
-public sealed partial class FreeRequestsViewModel : ObservableObject
+public sealed partial class FreeRequestsViewModel(
+  ISessionService sessionService,
+  RequestService requestService,
+  IServiceProvider serviceProvider)
+  : ObservableObject
 {
-  private readonly RequestService _requestService;
-  private readonly ISessionService _sessionService;
-  private readonly IServiceProvider _serviceProvider;
+  [ObservableProperty] private ObservableCollection<Request> _requests = [];
 
-  [ObservableProperty] private ObservableCollection<Request> _requests;
-
-  public FreeRequestsViewModel(ISessionService sessionService, RequestService requestService,
-    IServiceProvider serviceProvider)
+  /// <summary>
+  ///     Асинхронная инициализация ViewModel
+  /// </summary>
+  public async Task InitializeAsync()
   {
-    _requestService = requestService;
-    _sessionService = sessionService;
-    _serviceProvider = serviceProvider;
-
-    _ = LoadRequests();
+    await LoadRequestsAsync();
   }
 
-  private async Task LoadRequests()
+  /// <summary>
+  ///     Загрузка заявок
+  /// </summary>
+  private async Task LoadRequestsAsync()
   {
-    var requestCollection = (await _requestService.GetAllRequestsAsync()).ToList();
+    var requestCollection = (await requestService.GetAllRequestsAsync()).ToList();
 
     Requests = new ObservableCollection<Request>(requestCollection.Where(r =>
       r.MasterId == null && r.Status == "Новая заявка"));
@@ -47,15 +48,12 @@ public sealed partial class FreeRequestsViewModel : ObservableObject
   [RelayCommand]
   private void NavigateToTechnicianPage()
   {
-    var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+    var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
 
     // Navigate to the RegistrationView by setting the Content of the ContentControl
-    if (mainWindow != null)
-    {
-      mainWindow.Content = _serviceProvider.GetRequiredService<TechnicianView>();
-    }
+    if (mainWindow != null) mainWindow.Content = serviceProvider.GetRequiredService<TechnicianView>();
   }
 
   /// <summary>
@@ -64,12 +62,12 @@ public sealed partial class FreeRequestsViewModel : ObservableObject
   [RelayCommand]
   private async Task ApplyRequest(Request request)
   {
-    var requestCollection = (await _requestService.GetAllRequestsAsync()).ToList();
+    var requestCollection = (await requestService.GetAllRequestsAsync()).ToList();
     var addedRequest = requestCollection.FirstOrDefault(r => r.Id == request.Id);
     if (addedRequest == null) return;
 
-    addedRequest.MasterId = _sessionService.CurrentUser.Id;
-    await _requestService.UpdateRequestAsync(addedRequest);
+    addedRequest.MasterId = sessionService.CurrentUser.Id;
+    await requestService.UpdateRequestAsync(addedRequest);
 
     Requests.Remove(addedRequest);
   }

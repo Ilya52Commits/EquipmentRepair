@@ -21,7 +21,7 @@ public partial class AuthorizationViewModel(
   TechnicianService technicianService,
   ISessionService sessionService,
   IServiceProvider serviceProvider)
-  :ObservableObject
+  : ObservableObject
 {
   [ObservableProperty] private string _login = string.Empty;
   [ObservableProperty] private string _password = string.Empty;
@@ -32,10 +32,10 @@ public partial class AuthorizationViewModel(
   [RelayCommand]
   private void NavigateToRegistrationPage()
   {
-    var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+    var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
       ? desktop.MainWindow as MainView
       : null;
-    
+
     if (mainWindow != null)
       mainWindow.Content = serviceProvider.GetRequiredService<RegistrationView>();
   }
@@ -60,7 +60,7 @@ public partial class AuthorizationViewModel(
 
       MessageBox.Show("Здравствуйте, дорогой клиент!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
-      var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+      var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
         ? desktop.MainWindow as MainView
         : null;
 
@@ -74,14 +74,16 @@ public partial class AuthorizationViewModel(
 
       MessageBox.Show("Добрый день, уважаемый техник!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
-      var mainWindow = Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+      var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
         ? desktop.MainWindow as MainView
         : null;
-      
+
       if (mainWindow != null)
         mainWindow.Content = serviceProvider.GetRequiredService<TechnicianView>();
     }
     else
+    {
       MessageBox.Show("Не удалось войти!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
   }
 }

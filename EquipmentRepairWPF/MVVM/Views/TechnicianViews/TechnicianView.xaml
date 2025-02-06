@@ -1,8 +1,8 @@
-﻿    <Page x:Class="EquipmentRepair.MVVM.Views.TechnicianViews.TechnicianView"
+﻿<Page x:Class="EquipmentRepair.MVVM.Views.TechnicianViews.TechnicianView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:technicianViewModels="clr-namespace:EquipmentRepair.MVVM.ViewModels.TechnicianViewModels"
       d:DataContext="{d:DesignInstance technicianViewModels:TechnicianViewModel, IsDesignTimeCreatable=False}"
       mc:Ignorable="d"
@@ -12,76 +12,75 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="30, 10, 30, 0"  VerticalAlignment="Top">
+        <StackPanel Margin="30, 10, 30, 0" VerticalAlignment="Top">
             <Button
-                Command="{Binding DataContext.NavigateToAuthorizationCommand, ElementName=TechReq}"  
-                Content="Назад" 
+                Command="{Binding DataContext.NavigateToAuthorizationCommand, ElementName=TechReq}"
+                Content="Назад"
                 Width="100"
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Left" />
         </StackPanel>
-        <StackPanel Margin="150, 10, 30, 0"  VerticalAlignment="Top">
+        <StackPanel Margin="150, 10, 30, 0" VerticalAlignment="Top">
             <Button
-                Command="{Binding NavigateToFreeRequestsPageCommand}"  
-                Content="Свободные заявки" 
+                Command="{Binding NavigateToFreeRequestsPageCommand}"
+                Content="Свободные заявки"
                 Width="170"
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Left" />
         </StackPanel>
 
-        <Label 
+        <Label
             Margin="30, 50, 30, 0"
-            HorizontalAlignment="Center" 
-            FontSize="20" 
-            FontWeight="Bold" 
-            Content="ВАШИ ЗАЯВКИ НА ВЫПОЛНЕНИЯ"/>
+            HorizontalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Content="ВАШИ ЗАЯВКИ НА ВЫПОЛНЕНИЯ" />
 
         <DataGrid
             ItemsSource="{Binding Requests}"
-            AutoGenerateColumns="False" Grid.Row="0" 
+            AutoGenerateColumns="False" Grid.Row="0"
             CanUserAddRows="False"
-            Margin="30, 10, 30, 0" 
+            Margin="30, 10, 30, 0"
             VerticalAlignment="Center">
 
             <DataGrid.Columns>
-                <DataGridTextColumn 
+                <DataGridTextColumn
                     Binding="{Binding Id}"
                     IsReadOnly="True"
-                    Header="Номер заявки"/>
-                <DataGridTextColumn 
+                    Header="Номер заявки" />
+                <DataGridTextColumn
                     Binding="{Binding StartDate}"
                     IsReadOnly="True"
-                    Header="Дата добавления"/>
-                <DataGridTextColumn 
+                    Header="Дата добавления" />
+                <DataGridTextColumn
                     Binding="{Binding TypeEquipment}"
-                    Header="Тип устройства"/>
-                <DataGridTextColumn 
+                    Header="Тип устройства" />
+                <DataGridTextColumn
                     Binding="{Binding ModelEquipment}"
                     IsReadOnly="True"
-                    Header="Модель устройства"/>
-                <DataGridTextColumn 
+                    Header="Модель устройства" />
+                <DataGridTextColumn
                     Binding="{Binding DescriptionFault}"
                     IsReadOnly="True"
-                    Header="Описание проблемы"/>
-                <DataGridTextColumn 
-                     Binding="{Binding Status}"
-                     IsReadOnly="True"
-                     Header="Статус"/>
-                <DataGridTemplateColumn  
-                    Width="auto" 
-                    MinWidth="20" 
+                    Header="Описание проблемы" />
+                <DataGridTextColumn
+                    Binding="{Binding Status}"
+                    IsReadOnly="True"
+                    Header="Статус" />
+                <DataGridTemplateColumn
+                    Width="auto"
+                    MinWidth="20"
                     Header="Завершить работу">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
                                 Command="{Binding DataContext.FinishRequestCommand,
-                                ElementName=TechReq}"  
-                                Content="Завершить" 
+                                ElementName=TechReq}"
+                                Content="Завершить"
                                 Width="110"
                                 CommandParameter="{Binding}"
-                                HorizontalAlignment="Left"
-                                />
+                                HorizontalAlignment="Left" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
