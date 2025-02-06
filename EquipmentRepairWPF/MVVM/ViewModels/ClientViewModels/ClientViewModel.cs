@@ -91,6 +91,7 @@ public sealed partial class ClientViewModel : ObservableObject
   {
     await _requestService.DeleteRequestAsync(request.Id);
     Requests.Remove(request);
+    Selected.Remove(request);
   }
 
   /// <summary>
