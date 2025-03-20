@@ -1,7 +1,8 @@
 # Программа ремонта оборудования / Equipment repair program
+
 Разработка программного модуля для учета заявок на ремонт климатического оборудования предназначена для автоматизации процесса обработки заявок на ремонт со стороны заказчиков, а также для облегчения и ускорения работы сотрудникам, ответственным за обслуживание и ремонт климатического оборудования.
 ---
-Development of a program module for accounting of requests for repair of climate equipment is intended to automate the process of processing repair requests from customers, as well as to facilitate and accelerate the work of employees responsible for maintenance and repair of climate equipment.
+**Development of a program module for accounting of requests for repair of climate equipment is intended to automate the process of processing repair requests from customers, as well as to facilitate and accelerate the work of employees responsible for maintenance and repair of climate equipment.**
 
 ### Основные функции и возможности модуля включают / The main functions and features of the module include:
 1. Заявка на ремонт: это информация, предоставленная заказчиком о неисправности климатического оборудования, которое требует ремонта. Заказчик оставляет новую заявку. Заявка может содержать данные о типе оборудования, модели, описании проблемы, личную информацию (ФИО клиента и номер телефона). Заказчик может отредактировать свою заявку.
@@ -48,5 +49,6 @@ Development of a program module for accounting of requests for repair of climate
 Программа реализует паттерн MVVM и сервисную архитектуру. Содаржит два типа GUI: с помощью WPF и AvaloniaUI.
 Может взаимодействовать с MS SQL и PostgreSQL. Для того, чтобы переключаться между базами, необходимо в файле appsettings.json в EquipmentRepairWPF или EquipmentRepairAvaloniaUI в "DataProvider" указать "MsSql" для MSSQL и "PgSql" для PostgreSQL.
 ---
-The program implements MVVM pattern and service architecture. It contains two types of GUI: using WPF and AvaloniaUI.
+**The program implements MVVM pattern and service architecture. It contains two types of GUI: using WPF and AvaloniaUI.
 It can interact with MS SQL and PostgreSQL. In order to switch between databases, you need to specify “MsSql” for MSSQL and “PgSql” for PostgreSQL in “DataProvider” in the file appsettings.json in EquipmentRepairWPF or EquipmentRepairAvaloniaUI.
+**
